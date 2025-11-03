@@ -1,14 +1,24 @@
 using Microsoft.AspNetCore.Identity;
-using ProyectoProgramacionBLL.Servicios;
-using ProyectoProgramacionDAL.Entidades;
-using ProyectoProgramacionDAL.Contexto;
 using Microsoft.EntityFrameworkCore;
 using ProyectoProgramacionBLL.Inicializacion;
+using ProyectoProgramacionBLL.Mapeos;
+using ProyectoProgramacionBLL.Servicios;
+using ProyectoProgramacionDAL.Contexto;
+using ProyectoProgramacionDAL.Entidades;
+using ProyectoProgramacionDAL.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configuración de MVC
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IClientesRepositorio, ClientesRepositorio>();
+builder.Services.AddScoped<IClienteServicio, ClienteServicio>();
+
+builder.Services.AddSingleton<IClientesRepositorio, ClientesRepositorio>();
+builder.Services.AddSingleton<IClienteServicio, ClienteServicio>();
+
+builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases));
 
 // 2. Configuración de EF Core / SQLite / DbContext
 builder.Services.AddDbContext<AppDbContext>();
@@ -65,5 +75,9 @@ using (var scope = app.Services.CreateScope())
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
+    name: "Clientes",
+    pattern: "{controller=Cliente}/{action=Index}/{id?}");
 
 app.Run();

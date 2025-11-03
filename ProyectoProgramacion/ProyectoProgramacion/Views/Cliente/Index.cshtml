@@ -1,0 +1,29 @@
+﻿@using ProyectoProgramacionBLL.Dtos
+
+@model List<ClienteDto>
+
+<h1>@ViewData["Title"]</h1>
+
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+    Crear Nuevo Cliente
+</button>
+
+<table class="table table-striped" id="tablaClientes">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Identificacion</th>
+            <th>Edad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+</table>
+@await Html.PartialAsync("Edit")
+@await Html.PartialAsync("Create")
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Clientes.js" asp-append-version="true"></script>
+
+}
