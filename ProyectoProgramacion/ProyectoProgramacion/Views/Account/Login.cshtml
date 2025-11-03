@@ -1,0 +1,68 @@
+﻿@model ProyectoProgramacionBLL.Dtos.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión en SGC";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <section class="card shadow-lg p-4">
+            <h2 class="card-title text-center text-primary mb-4">
+                <i class="fas fa-lock me-2"></i> Acceso al Sistema SGC
+            </h2>
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+
+                <p class="text-secondary text-center">Ingrese sus credenciales para continuar.</p>
+                <hr />
+
+                <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+
+                @* Campo de Correo Electrónico *@
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                    <input asp-for="Email" class="form-control" placeholder="su.correo@dominio.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                @* Campo de Contraseña *@
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label fw-semibold"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Contraseña encriptada" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+@*                 @* Checkbox "Recordarme" 
+                <div class="form-group mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="RememberMe" />
+                        <label class="form-check-label" asp-for="RememberMe">
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                </div> *@
+
+                @* Botón de Enviar *@
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                    </button>
+                </div>
+
+                <hr />
+
+                @* Enlace a Registro *@
+                <div class="text-center">
+                    <p class="mb-1">
+                        ¿No tienes una cuenta?
+                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Regístrate aquí</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
