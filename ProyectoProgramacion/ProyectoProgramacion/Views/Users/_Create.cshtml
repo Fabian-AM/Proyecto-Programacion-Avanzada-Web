@@ -1,0 +1,88 @@
+﻿@model ProyectoProgramacionBLL.Dtos.ViewModels.UserCreateViewModel
+
+<div class="modal fade" id="MainModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="CreateUserForm">
+                <div class="modal-body">
+
+                    <div class="form-group mb-2">
+                        <label>Email</label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Identificación</label>
+                        <input asp-for="Identificacion" class="form-control" />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Nombre</label>
+                        <input asp-for="Nombre" class="form-control" />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Apellido</label>
+                        <input asp-for="Apellido" class="form-control" />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Contraseña</label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Roles</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Admin" id="roleAdmin">
+                            <label class="form-check-label" for="roleAdmin">Admin</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Analista" id="roleAnalista">
+                            <label class="form-check-label" for="roleAnalista">Analista</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Gestor" id="roleGestor">
+                            <label class="form-check-label" for="roleGestor">Gestor</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Servicio al Cliente" id="roleServicio">
+                            <label class="form-check-label" for="roleServicio">Servicio al Cliente</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Cliente" id="roleCliente">
+                            <label class="form-check-label" for="roleCliente">Cliente</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#CreateUserForm').submit(function (e) {
+        e.preventDefault();
+
+        $.post('/Users/Create', $(this).serialize(), function (res) {
+            if (res.success) {
+                Swal.fire('Éxito', res.message, 'success')
+                    .then(() => location.reload());
+            } else {
+                Swal.fire('Error', res.errors.join(','), 'error');
+            }
+        });
+    });
+</script>
+
