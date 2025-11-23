@@ -1,0 +1,68 @@
+﻿@model ProyectoProgramacionBLL.Dtos.ViewModels.UserRolesViewModel
+
+<div class="modal fade" id="MainModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Administrar Roles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="RolesForm">
+
+                <div class="modal-body">
+                    <input type="hidden" asp-for="UserId" />
+
+                    <h5>@Model.Email</h5>
+
+                    @foreach (var role in Model.Roles)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="Roles[@Model.Roles.IndexOf(role)].Selected"
+                                   value="true"
+                                   @(role.Selected ? "checked" : "") />
+
+                            <input type="hidden"
+                                   name="Roles[@Model.Roles.IndexOf(role)].RoleName"
+                                   value="@role.RoleName" />
+
+                            <label class="form-check-label">
+                                @role.RoleName
+                            </label>
+                        </div>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Roles</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#RolesForm').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/Users/Roles',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function (res) {
+                if (res.success) {
+                    Swal.fire('Listo', res.message, 'success').then(() => location.reload());
+                } else {
+                    Swal.fire('Error', res.errors.join(','), 'error');
+                }
+            }
+        });
+    });
+</script>
+

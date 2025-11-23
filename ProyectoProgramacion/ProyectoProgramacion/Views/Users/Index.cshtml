@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProyectoProgramacionBLL.Dtos.ViewModels.UserListDto>
+
+@{
+    ViewData["Title"] = "Administración de Usuarios";
+}
+
+<h2>Administración de Usuarios</h2>
+
+<button class="btn btn-primary mb-3" onclick="openCreateModal()">Crear Usuario</button>
+
+<table id="usersTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Roles</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Email</td>
+                <td>@(u.Nombre + " " + u.Apellido)</td>
+                <td>@string.Join(", ", u.Roles)</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="openEditModal('@u.Id')">Editar</button>
+                    <button class="btn btn-info btn-sm" onclick="openRolesModal('@u.Id')">Roles</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser('@u.Id')">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="ModalContainer"></div>
+
