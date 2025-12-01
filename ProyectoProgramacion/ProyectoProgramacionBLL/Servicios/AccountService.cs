@@ -66,11 +66,6 @@ namespace ProyectoProgramacionBLL.Servicios
             return new AuthResponseDto { Succeeded = false, Message = "Intento de inicio de sesión no válido. Credenciales incorrectas." };
         }
 
-        public async Task LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
         public async Task<List<UserListDto>> GetAllUsersAsync()
         {
             var users = _userManager.Users.ToList();
@@ -232,6 +227,11 @@ namespace ProyectoProgramacionBLL.Servicios
                 Apellido = user.Apellido,
                 Identificacion = user.Identificacion
             };
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
 
     }

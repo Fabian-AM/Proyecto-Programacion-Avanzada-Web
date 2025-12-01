@@ -45,11 +45,10 @@ namespace ProyectoProgramacion.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _accountService.LogoutAsync(); // Lógica MOVIDA A BLL
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            await _accountService.LogoutAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]

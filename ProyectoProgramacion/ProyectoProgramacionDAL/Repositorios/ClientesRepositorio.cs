@@ -1,60 +1,88 @@
-﻿using ProyectoProgramacionDAL.Entidades;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoProgramacionDAL.Contexto;
+using ProyectoProgramacionDAL.Entidades;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProyectoProgramacionDAL.Repositorios
 {
     public class ClientesRepositorio : IClientesRepositorio
     {
-        private  List<Cliente> clientes = new List<Cliente>()
+        private readonly AppDbContext _context;
+
+        public ClientesRepositorio(AppDbContext context)
         {
-            new Cliente { Id = 1, Nombre = "Juan", Apellido = "Pérez",Identificacion = 143241231, Edad = 30 },
-            new Cliente { Id = 2, Nombre = "María", Apellido = "Gómez",Identificacion = 231348745, Edad = 25 },
-            new Cliente { Id = 3, Nombre = "Carlos", Apellido = "López",Identificacion = 332335821, Edad = 28 }
-        };
+            _context = context;
+        }
+
+        public async Task<List<Cliente>> ObtenerClienteAsync()
+        {
+            return await _context.Clientes.ToListAsync();
+        }
+
+        public async Task<Cliente> ObtenerClientePorIdAsync(int id)
+        {
+            return await _context.Clientes.FindAsync(id);
+        }
+
+        public async Task<bool> AgregarClienteAsync(Cliente cliente)
+        {
+            // Entity Framework maneja el ID autoincremental, no es necesario calcularlo manualmente
+            try
+            {
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public async Task<bool> ActualizarClienteAsync(Cliente cliente)
         {
-            var clienteExistente = clientes.FirstOrDefault(u => u.Id == cliente.Id);
+            var clienteExistente = await _context.Clientes.FindAsync(cliente.Id);
+            if (clienteExistente == null)
+            {
+                return false;
+            }
+
+            // Actualizamos las propiedades
             clienteExistente.Nombre = cliente.Nombre;
             clienteExistente.Apellido = cliente.Apellido;
             clienteExistente.Identificacion = cliente.Identificacion;
             clienteExistente.Edad = cliente.Edad;
 
-            return true;
-        }
-
-        public async Task<bool> AgregarClienteAsync(Cliente cliente)
-        {
-            cliente.Id = clientes.Any() ? clientes.Max(u => u.Id) + 1 : 1;
-            clientes.Add(cliente);
-            return true;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> EliminarClienteAsync(int id)
         {
-            var cliente = clientes.FirstOrDefault(u => u.Id == id);
-            if (cliente != null)
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
             {
-                clientes.Remove(cliente);
+                return false;
+            }
+
+            try
+            {
+                _context.Clientes.Remove(cliente);
+                await _context.SaveChangesAsync();
                 return true;
             }
-            return false;
-        }
-
-        public async Task<Cliente> ObtenerClientePorIdAsync(int id)
-        {
-            //SP //API // ETC
-            var cliente = clientes.FirstOrDefault(u => u.Id == id);
-            return cliente;
-        }
-
-        public async Task<List<Cliente>> ObtenerClienteAsync()
-        {
-            return clientes;
+            catch
+            {
+                return false;
+            }
         }
     }
 }

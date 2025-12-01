@@ -28,11 +28,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">
-                                Administración de Usuarios
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Administrar Usuarios</a>
+                            </li>
+                        }
+                        <ul class="navbar-nav flex-grow-1">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item ms-auto d-flex align-items-center">
+                                    <span class="text-dark me-3"> @User.Identity.Name</span>
+
+                                    <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                                        <button type="submit" class="nav-link btn btn-link text-dark border-0" style="cursor: pointer;">
+                                            Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                                </li>
+                            }
+
+                        </ul>
                     </ul>
                 </div>
             </div>

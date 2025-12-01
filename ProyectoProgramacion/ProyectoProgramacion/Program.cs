@@ -15,9 +15,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IClientesRepositorio, ClientesRepositorio>();
 builder.Services.AddScoped<IClienteServicio, ClienteServicio>();
 
-builder.Services.AddSingleton<IClientesRepositorio, ClientesRepositorio>();
-builder.Services.AddSingleton<IClienteServicio, ClienteServicio>();
-
 builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases));
 
 // 2. Configuración de EF Core / SQLite / DbContext
