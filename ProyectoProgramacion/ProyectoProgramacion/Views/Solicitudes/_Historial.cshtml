@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ProyectoProgramacionBLL.Dtos.BitacoraDto>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">No hay movimientos registrados para esta solicitud.</div>
+}
+else
+{
+    <table class="table table-sm table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+                <th>Comentario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Fecha</td>
+                    <td>@item.NombreUsuario</td>
+                    <td>
+                        @if (item.Accion == "Crear")
+                        {
+                            <span class="badge bg-primary">Crear</span>
+                        }
+                        else if (item.Accion == "Aprobado")
+                        {
+
+                            <span class="badge bg-success">Aprobado</span>
+                        }
+                        else if (item.Accion == "Devolución")
+                        {
+
+                            <span class="badge bg-warning text-dark">Devolución</span>
+                        }
+                        else
+                        {
+
+                            <span class="badge bg-secondary">@item.Accion</span>
+                        }
+                    </td>
+                    <td>@item.Comentario</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

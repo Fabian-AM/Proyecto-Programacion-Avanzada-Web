@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using ProyectoProgramacionBLL.Dtos;
 using ProyectoProgramacionDAL.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProyectoProgramacionBLL.Mapeos
 {
@@ -13,8 +8,19 @@ namespace ProyectoProgramacionBLL.Mapeos
     {
         public MapeoClases()
         {
-            CreateMap<Cliente, ClienteDto>().ReverseMap();          
-            CreateMap<Solicitud, SolicitudDto>().ReverseMap();
+            // 1. Clientes
+            CreateMap<Cliente, ClienteDto>().ReverseMap();
+
+            // 2. Documentos (ESTE ES EL QUE TE FALTA Y CAUSA EL ERROR)
+            CreateMap<Documento, DocumentoDto>()
+                .ForMember(dest => dest.FechaSubida, opt => opt.MapFrom(src => src.FechaSubida.ToString("dd/MM/yyyy HH:mm")))
+                .ReverseMap();
+
+            // 3. Solicitudes (Asegúrate que tenga la línea de DocumentosExistentes)
+            CreateMap<Solicitud, SolicitudDto>()
+                .ForMember(dest => dest.NombreCliente, opt => opt.MapFrom(src => src.Cliente.Nombre + " " + src.Cliente.Apellido))
+                .ForMember(dest => dest.DocumentosExistentes, opt => opt.MapFrom(src => src.Documentos))
+                .ReverseMap();
         }
     }
 }

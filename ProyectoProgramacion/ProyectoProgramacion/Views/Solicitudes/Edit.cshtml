@@ -1,53 +1,116 @@
 ﻿@model ProyectoProgramacionBLL.Dtos.SolicitudDto
+@using Microsoft.AspNetCore.Identity
 
 @{
-    ViewData["Title"] = "Editar Solicitud";
+    ViewData["Title"] = "Procesar Solicitud";
 }
 
-<h1>Editar Solicitud</h1>
-
-<h4>Modificar datos</h4>
+<h2>Procesar Solicitud #@Model.SolicitudID</h2>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-8">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            
             <input type="hidden" asp-for="SolicitudID" />
+            <input type="hidden" asp-for="ClienteID" />
+            <input type="hidden" asp-for="FechaCreacion" />
+            
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    Información General
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Cliente</dt>
+                        <dd class="col-sm-8">@Model.NombreCliente</dd> <dt class="col-sm-4">Monto Crédito</dt>
+                        <dd class="col-sm-8">@Model.MontoCredito.ToString("C")</dd>
 
-            <div class="form-group mb-3">
-                <label asp-for="ClienteID" class="control-label">Cliente</label>
-                <select asp-for="ClienteID" class="form-control" asp-items="ViewBag.ClienteID"></select>
-                <span asp-validation-for="ClienteID" class="text-danger"></span>
+                        <dt class="col-sm-4">Estado Actual</dt>
+                        <dd class="col-sm-8"><span class="badge bg-secondary">@Model.Estado</span></dd>
+                    </dl>
+                </div>
             </div>
+            <div class="card mb-3 border-secondary">
+    <div class="card-header bg-secondary text-white">
+        <i class="fa fa-file-pdf"></i> Documentos Adjuntos
+    </div>
+    <div class="card-body">
+        @if (Model.DocumentosExistentes != null && Model.DocumentosExistentes.Any())
+        {
+            <ul class="list-group">
+                @foreach (var doc in Model.DocumentosExistentes)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>@doc.NombreArchivo</strong>
+                            <small class="text-muted d-block">Subido el: @doc.FechaSubida</small>
+                        </div>
+                        <a href="~/@doc.RutaAlmacenamiento" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fa fa-download"></i> Descargar / Ver
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="text-muted">No hay documentos adjuntos a esta solicitud.</p>
+        }
+    </div>
+</div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Analista"))
+            {
+                 <div class="form-group mb-3">
+                    <label class="control-label fw-bold">Adjuntar Documentos de Análisis</label>
+                    <input asp-for="DocumentoAdjunto" type="file" class="form-control" />
+                    <span class="text-muted small">Requerido para enviar a aprobación.</span>
+                </div>
+            }
 
             <div class="form-group mb-3">
-                <label asp-for="MontoCredito" class="control-label">Monto del Crédito</label>
-                <input asp-for="MontoCredito" class="form-control" />
-                <span asp-validation-for="MontoCredito" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="ComentariosIniciales" class="control-label">Comentarios</label>
-                <textarea asp-for="ComentariosIniciales" class="form-control"></textarea>
+                <label asp-for="ComentariosIniciales" class="control-label fw-bold">Comentarios / Observaciones</label>
+                <textarea asp-for="ComentariosIniciales" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="ComentariosIniciales" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Estado Actual</label>
-                <input asp-for="Estado" class="form-control" readonly />
-            </div>
-
             <div class="form-group mt-4">
-                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+                
+                @* LÓGICA PARA ANALISTA (Ver solo si está en Ingresado o Devolución) *@
+                @if ((User.IsInRole("Analista") || User.IsInRole("Admin")) && 
+                     (Model.Estado == "Ingresado" || Model.Estado == "Devolución"))
+                {
+                    <button type="submit" name="Estado" value="Enviado Aprobación" class="btn btn-primary btn-lg">
+                        <i class="fa fa-paper-plane"></i> Enviar a Aprobación
+                    </button>
+                }
+
+                @* LÓGICA PARA GESTOR (Ver solo si está en Enviado Aprobación) *@
+                @if ((User.IsInRole("Gestor") || User.IsInRole("Admin")) && 
+                     Model.Estado == "Enviado Aprobación")
+                {
+                    <button type="submit" name="Estado" value="Aprobado" class="btn btn-success btn-lg me-2">
+                        <i class="fa fa-check"></i> Aprobar Solicitud
+                    </button>
+
+                    <button type="submit" name="Estado" value="Devolución" class="btn btn-warning btn-lg">
+                        <i class="fa fa-undo"></i> Devolver (Requiere Comentario)
+                    </button>
+                }
+
+                @* Botón de Guardar simple (solo para Admin o casos sin flujo) *@
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="submit" class="btn btn-secondary ms-3">Guardar sin Cambiar Estado</button>
+                }
+
+                <a asp-action="Index" class="btn btn-link">Volver a la lista</a>
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

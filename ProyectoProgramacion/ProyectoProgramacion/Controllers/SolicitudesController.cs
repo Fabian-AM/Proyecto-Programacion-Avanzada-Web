@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProyectoProgramacionBLL.Dtos;
 using ProyectoProgramacionBLL.Servicios;
+using ProyectoProgramacionDAL.Entidades;
 using System.Threading.Tasks;
 
 namespace ProyectoProgramacion.Controllers
@@ -10,21 +12,25 @@ namespace ProyectoProgramacion.Controllers
     {
         private readonly ISolicitudesServicio _solicitudesServicio;
         private readonly IClienteServicio _clienteServicio; // Necesario para listar clientes en el Create
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public SolicitudesController(ISolicitudesServicio solicitudesServicio, IClienteServicio clienteServicio)
+        public SolicitudesController(ISolicitudesServicio solicitudesServicio,IClienteServicio clienteServicio,UserManager<ApplicationUser> userManager) // 1. Agrega este parámetro
         {
             _solicitudesServicio = solicitudesServicio;
             _clienteServicio = clienteServicio;
+            _userManager = userManager;
         }
 
         // GET: Solicitudes
         public async Task<IActionResult> Index()
         {
-            var respuesta = await _solicitudesServicio.ObtenerTodasSolicitudesAsync();
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return Challenge();
+            var roles = await _userManager.GetRolesAsync(usuario);
+            var respuesta = await _solicitudesServicio.ObtenerTodasSolicitudesAsync(roles);
 
             if (respuesta.EsError)
             {
-                // Si hay error, podrías mandar un mensaje a la vista o loguearlo
                 ViewBag.Error = respuesta.Mensaje;
                 return View(new List<SolicitudDto>());
             }
@@ -44,34 +50,27 @@ namespace ProyectoProgramacion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SolicitudDto solicitudDto)
         {
-            // 1. ELIMINAMOS LAS VALIDACIONES QUE NO CORRESPONDEN AL USUARIO
-            // Esto le dice al sistema: "No te preocupes si estos campos vienen vacíos"
             ModelState.Remove("Estado");
             ModelState.Remove("NombreCliente");
-
-            // 2. ASIGNAMOS VALORES POR DEFECTO
-            // Asignamos el estado inicial (ej: "Pendiente", "Nueva", o el Id 1 según tu base de datos)
             solicitudDto.Estado = "Pendiente";
-
-            // (Opcional) Si tu base de datos requiere un nombre a fuerza, podrías poner uno temporal,
-            // aunque lo ideal es que el servicio lo busque por el ID.
-            solicitudDto.NombreCliente = "TBD";
 
             // 3. AHORA SÍ VERIFICAMOS
             if (ModelState.IsValid)
             {
-                var respuesta = await _solicitudesServicio.CrearSolicitudAsync(solicitudDto);
+                // OBTENER ID DEL USUARIO ACTUAL
+                var usuario = await _userManager.GetUserAsync(User);
+                if (usuario == null) return Challenge(); // Si no hay usuario, forzar login
+
+                // Pasamos el ID al servicio
+                var respuesta = await _solicitudesServicio.CrearSolicitudAsync(solicitudDto, usuario.Id);
 
                 if (!respuesta.EsError)
                 {
                     TempData["MensajeExito"] = "La solicitud se ha creado correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
-
                 ModelState.AddModelError("", respuesta.Mensaje);
             }
-
-            // 4. SI FALLA, RECARGAMOS LA LISTA (Muy importante para que no truene la vista)
             await CargarListaClientes();
             return View(solicitudDto);
         }
@@ -120,30 +119,39 @@ namespace ProyectoProgramacion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SolicitudDto solicitudDto)
         {
-            // Limpiamos validaciones que no aplican (igual que en Create)
             ModelState.Remove("NombreCliente");
-
-            // Si el estado no viene del form, puedes quitarlo también o asignarlo:
-            // ModelState.Remove("Estado"); 
 
             if (ModelState.IsValid)
             {
-                var respuesta = await _solicitudesServicio.ActualizarSolicitudAsync(solicitudDto);
+                // OBTENER ID DEL USUARIO ACTUAL
+                var usuario = await _userManager.GetUserAsync(User);
+                if (usuario == null) return Challenge();
+
+                // Pasamos el ID al servicio
+                var respuesta = await _solicitudesServicio.ActualizarSolicitudAsync(solicitudDto, usuario.Id);
 
                 if (!respuesta.EsError)
                 {
-                    // Usamos TempData para la alerta bonita que configuramos antes
                     TempData["MensajeExito"] = "La solicitud ha sido actualizada correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
-
-                // Si falló el servicio, mostramos el error
                 ModelState.AddModelError("", respuesta.Mensaje);
             }
-
-            // Si algo salió mal, recargamos la lista y devolvemos la vista
             await CargarListaClientes();
             return View(solicitudDto);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Historial(int id)
+        {
+            var respuesta = await _solicitudesServicio.ObtenerHistorialSolicitudAsync(id);
+
+            if (respuesta.EsError)
+            {
+                return BadRequest(respuesta.Mensaje);
+            }
+
+            // Retornamos una VISTA PARCIAL, no un JSON ni una Vista completa
+            return PartialView("_Historial", respuesta.Data);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,7 @@ namespace ProyectoProgramacionBLL.Dtos
         public string ComentariosIniciales { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string NombreCliente { get; set; }
+        public IFormFile? DocumentoAdjunto { get; set; }
+        public List<DocumentoDto> DocumentosExistentes { get; set; } = new List<DocumentoDto>();
     }
 }

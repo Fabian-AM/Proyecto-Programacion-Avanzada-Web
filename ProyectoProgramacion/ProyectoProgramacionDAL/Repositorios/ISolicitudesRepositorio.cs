@@ -12,7 +12,10 @@ namespace ProyectoProgramacionDAL.Repositorios
         Task<bool> AgregarSolicitudAsync(Solicitud solicitud);
         Task<bool> ActualizarSolicitudAsync(Solicitud solicitud);
         Task<Solicitud> ObtenerSolicitudPorIdAsync(int id);
-        Task<List<Solicitud>> ObtenerSolicitudesAsync();
+        Task<List<Solicitud>> ObtenerSolicitudesAsync(IList<string> rolesUsuario);
         Task<bool> ClienteTieneSolicitudActivaAsync(int clienteId);
+        Task<bool> AgregarDocumentoAsync(Documento documento);
+        Task<bool> AgregarBitacoraAsync(BitacoraMovimiento movimiento);
+        Task<List<BitacoraMovimiento>> ObtenerHistorialAsync(int solicitudId);
     }
 }
