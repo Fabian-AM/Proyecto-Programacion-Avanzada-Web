@@ -27,7 +27,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // 3. Configuración de ASP.NET Identity (Roles, Usuarios, Encriptación)
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    // Requisitos de Contraseña
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
@@ -36,7 +35,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
     options.User.RequireUniqueEmail = true;
 })
-.AddEntityFrameworkStores<AppDbContext>() // Conecta Identity con EF Core
+.AddEntityFrameworkStores<AppDbContext>() 
 .AddErrorDescriber<IdentityErrorDescriber>()
 .AddDefaultTokenProviders();
 

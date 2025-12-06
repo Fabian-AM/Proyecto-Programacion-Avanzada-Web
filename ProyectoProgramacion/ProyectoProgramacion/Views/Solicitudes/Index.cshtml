@@ -91,15 +91,12 @@
 
 @section Scripts {
     <script>
-        // Función para cargar el formulario de Edición en el Modal
         function cargarModal(id) {
             var url = '@Url.Action("Edit", "Solicitudes")/' + id;
 
-            // 1. Mostrar el modal (con spinner de carga por defecto)
             var myModal = new bootstrap.Modal(document.getElementById('modalGeneral'));
             myModal.show();
 
-            // 2. Hacer la petición AJAX al controlador
             $('#contenidoModal').load(url, function(response, status, xhr) {
                 if (status == "error") {
                     $('#contenidoModal').html('<div class="alert alert-danger">Error al cargar la solicitud: ' + xhr.statusText + '</div>');
@@ -107,7 +104,6 @@
             });
         }
 
-        // Función para cargar el Historial (Extra)
         function verHistorial(id) {
             var url = '@Url.Action("Historial", "Solicitudes")/' + id;
             var myModal = new bootstrap.Modal(document.getElementById('modalGeneral'));

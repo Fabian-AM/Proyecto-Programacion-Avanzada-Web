@@ -27,7 +27,6 @@ namespace ProyectoProgramacionDAL.Repositorios
 
         public async Task<bool> AgregarClienteAsync(Cliente cliente)
         {
-            // Entity Framework maneja el ID autoincremental, no es necesario calcularlo manualmente
             try
             {
                 _context.Clientes.Add(cliente);
@@ -48,7 +47,6 @@ namespace ProyectoProgramacionDAL.Repositorios
                 return false;
             }
 
-            // Actualizamos las propiedades
             clienteExistente.Nombre = cliente.Nombre;
             clienteExistente.Apellido = cliente.Apellido;
             clienteExistente.Identificacion = cliente.Identificacion;

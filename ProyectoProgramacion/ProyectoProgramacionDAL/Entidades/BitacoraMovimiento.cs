@@ -20,7 +20,6 @@ namespace ProyectoProgramacionDAL.Entidades
         [ForeignKey("SolicitudID")]
         public Solicitud Solicitud { get; set; }
 
-        // Relación con el Usuario que hizo la acción (IdentityUser usa string como ID)
         [Required]
         public string UsuarioID { get; set; }
 
@@ -28,7 +27,7 @@ namespace ProyectoProgramacionDAL.Entidades
         public ApplicationUser Usuario { get; set; }
 
         [Required]
-        public string Accion { get; set; } // Ej: "Crear", "Aprobar", "Devolver"
+        public string Accion { get; set; } 
 
         public string Comentario { get; set; }
 

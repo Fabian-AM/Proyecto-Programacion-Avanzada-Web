@@ -15,21 +15,18 @@ namespace ProyectoProgramacion.Controllers
             _accountService = accountService;
         }
 
-        // LISTADO DE USUARIOS
         public async Task<IActionResult> Index()
         {
             var users = await _accountService.GetAllUsersAsync();
             return View(users);
         }
 
-        // GET - FORM DE EDICIÓN (MODAL)
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             var dto = await _accountService.GetUserByIdAsync(id);
             if (dto == null) return NotFound();
 
-            // Todos los roles posibles
             var allRoles = new List<string> { "Admin", "Analista", "Gestor", "Servicio al Cliente", "Cliente" };
             var userRoles = await _accountService.GetUserRolesAsync(id);
 
@@ -50,7 +47,6 @@ namespace ProyectoProgramacion.Controllers
             return PartialView("_Edit", vm);
         }
 
-        // POST - GUARDAR EDICIÓN
         [HttpPost]
         public async Task<IActionResult> Edit(UserEditViewModel model)
         {
@@ -63,7 +59,6 @@ namespace ProyectoProgramacion.Controllers
                 });
             }
 
-            // Validar email duplicado
             var existingEmail = await _accountService.GetUserByEmailAsync(model.Email);
             if (existingEmail != null && existingEmail.Id != model.Id)
             {
@@ -74,7 +69,6 @@ namespace ProyectoProgramacion.Controllers
                 });
             }
 
-            // Validar identificación duplicada
             if (!string.IsNullOrWhiteSpace(model.Identificacion))
             {
                 var existingId = await _accountService.GetUserByIdentificacionAsync(model.Identificacion);
@@ -88,7 +82,6 @@ namespace ProyectoProgramacion.Controllers
                 }
             }
 
-            // Actualizar datos
             var result = await _accountService.UpdateUserAsync(model);
 
             if (!result.Succeeded)
@@ -100,7 +93,6 @@ namespace ProyectoProgramacion.Controllers
                 });
             }
 
-            // Actualizar roles
             if (model.SelectedRoles != null)
             {
                 var rolesResult = await _accountService.SetUserRolesAsync(model.Id, model.SelectedRoles);
@@ -118,16 +110,12 @@ namespace ProyectoProgramacion.Controllers
             return Json(new { success = true, message = "Usuario actualizado correctamente" });
         }
 
-
-
-        // GET - CREAR USUARIO (MODAL)
         [HttpGet]
         public IActionResult Create()
         {
             return PartialView("_Create", new UserCreateViewModel());
         }
 
-        // POST - CREAR USUARIO
         [HttpPost]
         public async Task<IActionResult> Create(UserCreateViewModel model)
         {
@@ -142,10 +130,6 @@ namespace ProyectoProgramacion.Controllers
                 });
             }
 
-            // VALIDACIONES PERSONALIZADAS
-            // ------------------------------------------------------
-
-            // Validar que el correo no esté repetido
             var emailExists = await _accountService.GetUserByEmailAsync(model.Email);
             if (emailExists != null)
             {
@@ -156,7 +140,6 @@ namespace ProyectoProgramacion.Controllers
                 });
             }
 
-            // Validar que la identificación no esté repetida
             if (!string.IsNullOrWhiteSpace(model.Identificacion))
             {
                 var idExists = await _accountService.GetUserByIdentificacionAsync(model.Identificacion);
@@ -187,8 +170,6 @@ namespace ProyectoProgramacion.Controllers
             return Json(new { success = true, message = "Usuario creado exitosamente" });
         }
 
-
-        // POST - ELIMINAR USUARIO
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -200,7 +181,6 @@ namespace ProyectoProgramacion.Controllers
             return Json(new { success = true, message = "Usuario eliminado correctamente" });
         }
 
-        // GET - ADMINISTRAR ROLES (MODAL)
         [HttpGet]
         public async Task<IActionResult> Roles(string id)
         {
@@ -234,7 +214,6 @@ namespace ProyectoProgramacion.Controllers
             return PartialView("_Roles", vm);
         }
 
-        // POST - GUARDAR ROLES
         [HttpPost]
         public async Task<IActionResult> Roles(UserRolesViewModel model)
         {

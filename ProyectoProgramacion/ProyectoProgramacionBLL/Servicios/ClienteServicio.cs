@@ -140,7 +140,7 @@ namespace ProyectoProgramacionBLL.Servicios
                 return respuesta;
                 
             }
-            if (cliente.Edad < 18) //Falla de negocio
+            if (cliente.Edad < 18) 
             {
                 respuesta.EsError = true;
                 respuesta.Mensaje = "Usuario menor de edad";

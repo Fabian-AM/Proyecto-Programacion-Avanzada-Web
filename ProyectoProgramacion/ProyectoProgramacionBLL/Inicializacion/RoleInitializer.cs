@@ -30,29 +30,8 @@ namespace ProyectoProgramacionBLL.Inicializacion
                     await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
-
-            //CREACIÓN DEL USUARIO ADMINISTRADOR INICIAL
-            var adminUser = await userManager.FindByEmailAsync("admin@sgc.com");
-            if (adminUser == null)
-            {
-                adminUser = new ApplicationUser
-                {
-                    UserName = "admin@sgc.com",
-                    Email = "admin@sgc.com",
-                    EmailConfirmed = true,
-                    Nombre = "Administrador",
-                    Apellido = "SGC",
-                    Identificacion = "000000000"
-                };
-
-                var result = await userManager.CreateAsync(adminUser, "AdminP@ss123");
-
-                if (result.Succeeded)
-                {
-                    // Asignación de Rol Admin
-                    await userManager.AddToRoleAsync(adminUser, AdminRole);
-                }
-            }
+          
         }
     }
 }
+

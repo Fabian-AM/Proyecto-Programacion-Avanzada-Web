@@ -15,12 +15,12 @@
             <form id="frmProcesarSolicitud" asp-action="Edit" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 
-                @* Campos ocultos necesarios *@
+
                 <input type="hidden" asp-for="SolicitudID" />
                 <input type="hidden" asp-for="ClienteID" />
                 <input type="hidden" asp-for="FechaCreacion" />
                 
-                @* --- TARJETA DE INFORMACIÓN (Solo lectura) --- *@
+                @* --- TARJETA DE INFORMACIÓN  --- *@
                 <div class="card mb-3 shadow-sm">
                     <div class="card-header bg-info text-white">
                         <i class="fa fa-info-circle"></i> Información General
@@ -93,7 +93,7 @@
                 </div>
                 }
 
-                @* 2. Comentarios (Para todos, obligatorio si se devuelve) *@
+                @* 2. Comentarios  *@
                 <div class="form-group mb-3">
                     <label class="control-label fw-bold w-100">
                         Comentarios / Observaciones
@@ -147,15 +147,13 @@
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 <script>
-    // Reactivar validación de jQuery Unobtrusive para contenido dinámico
+
     $.validator.unobtrusive.parse("#frmProcesarSolicitud");
 
-    // Función auxiliar para setear el valor del botón presionado en el input hidden
     function establecerAccion(estado) {
         document.getElementById('inputEstado').value = estado;
     }
 
-    // Validación específica para el botón "Devolver"
     function validarDevolucion() {
         var comentario = document.getElementById("ComentariosIniciales").value;
         if (!comentario || comentario.trim() === "") {
@@ -166,21 +164,18 @@
             });
             return;
         }
-        // Si hay comentario, seteamos el estado y enviamos
         establecerAccion('Devolución');
-        // Disparamos el submit manualmente interceptado por el script de abajo
         var form = document.getElementById('frmProcesarSolicitud');
         var event = new Event('submit', { cancelable: true });
         form.dispatchEvent(event);
     }
 
-    // --- LÓGICA AJAX PARA EVITAR RECARGA (Requisito del PDF) ---
+
     document.getElementById('frmProcesarSolicitud').addEventListener('submit', function (e) {
-        e.preventDefault(); // Detener envío normal
+        e.preventDefault(); 
 
         var form = this;
         
-        // Verificar validación de frontend antes de enviar
         if (!$(form).valid()) {
             return; 
         }
@@ -209,8 +204,7 @@
                     text: 'La solicitud ha sido procesada correctamente.',
                     confirmButtonText: 'Aceptar'
                 }).then((result) => {
-                    // Cerrar modal y recargar la página base para ver cambios en la tabla
-                    // Opcional: Si quieres recargar solo la tabla, requeriría más JS.
+                    
                     window.location.reload(); 
                 });
             } else {

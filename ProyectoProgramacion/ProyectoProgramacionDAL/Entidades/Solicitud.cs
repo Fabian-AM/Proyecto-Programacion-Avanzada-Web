@@ -26,13 +26,12 @@ namespace ProyectoProgramacionDAL.Entidades
         public decimal MontoCredito { get; set; }
 
         [Required]
-        public string Estado { get; set; } = "Ingresado"; // Ingresado, Devolución, Enviado Aprobación, Aprobado
+        public string Estado { get; set; } = "Ingresado"; 
 
         public string ComentariosIniciales { get; set; }
 
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
-        // Relaciones
         public ICollection<Documento> Documentos { get; set; }
         public ICollection<BitacoraMovimiento> Movimientos { get; set; }
     }

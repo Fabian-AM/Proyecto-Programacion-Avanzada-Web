@@ -14,8 +14,6 @@ namespace ProyectoProgramacionBLL.Servicios
         Task<AuthResponseDto> RegisterAsync(RegisterViewModel model);
         Task<AuthResponseDto> LoginAsync(LoginViewModel model);
         Task LogoutAsync();
-
-        // ADMIN METHODS
         Task<UserEditDto> GetUserByEmailAsync(string email);
         Task<UserEditDto> GetUserByIdentificacionAsync(string identificacion);
 

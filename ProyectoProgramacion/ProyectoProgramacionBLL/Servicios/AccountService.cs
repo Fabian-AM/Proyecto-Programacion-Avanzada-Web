@@ -39,7 +39,6 @@ namespace ProyectoProgramacionBLL.Servicios
                                                     
             };
 
-            // Lógica de Encriptación y Creación de Usuario
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -54,7 +53,6 @@ namespace ProyectoProgramacionBLL.Servicios
 
         public async Task<AuthResponseDto> LoginAsync(LoginViewModel model)
         {
-            //Lógica de Verificación de Credenciales
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
@@ -62,7 +60,6 @@ namespace ProyectoProgramacionBLL.Servicios
                 return new AuthResponseDto { Succeeded = true, Message = "Inicio de sesión exitoso." };
             }
 
-            //Lógica de Retorno de Error
             return new AuthResponseDto { Succeeded = false, Message = "Intento de inicio de sesión no válido. Credenciales incorrectas." };
         }
 

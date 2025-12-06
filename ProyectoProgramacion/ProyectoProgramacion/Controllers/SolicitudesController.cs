@@ -72,27 +72,21 @@ namespace ProyectoProgramacion.Controllers
             return Json(new { success = true, message = "La solicitud se ha creado correctamente." });
         }
 
-        // Método auxiliar para llenar el Dropdown de Clientes
         private async Task CargarListaClientes()
         {
-            // Asumo que tu servicio de clientes tiene un método para obtener todos
-            // Si tu IClienteServicio devuelve un CustomResponse, la lógica sería así:
-            var respuesta = await _clienteServicio.ObtenerClientesAsync();
 
-            // Ajusta "Id" y "Nombre" según como se llamen las propiedades en tu ClienteDto
-            // Nota: concatenamos Nombre y Apellido para que se vea mejor en el dropdown
-            if (respuesta != null) // Ajustar según estructura de respuesta de ClienteServicio
+            var respuesta = await _clienteServicio.ObtenerClientesAsync();
+            if (respuesta != null) 
             {
-                // Creamos una lista anónima para el select list
                 var clientesSelect = respuesta.Data.Select(c => new {
                     Id = c.Id,
-                    NombreCompleto = $"{c.Nombre} {c.Apellido}" // Asegúrate de tener Apellido en el DTO si lo usas
+                    NombreCompleto = $"{c.Nombre} {c.Apellido}" 
                 });
 
                 ViewBag.ClienteID = new SelectList(clientesSelect, "Id", "NombreCompleto");
             }
         }
-        // 1. GET: Para abrir la pantalla de edición
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -108,13 +102,9 @@ namespace ProyectoProgramacion.Controllers
             }
 
             await CargarListaClientes();
-
-            // CAMBIO CRÍTICO: Usar PartialView en lugar de View
-            // Esto devuelve solo el HTML del formulario, sin el Layout completo.
             return PartialView(respuesta.Data);
         }
 
-        // 2. POST: Para guardar los cambios
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SolicitudDto solicitudDto)
@@ -123,7 +113,6 @@ namespace ProyectoProgramacion.Controllers
 
             if (ModelState.IsValid)
             {
-                // OBTENER ID DEL USUARIO ACTUAL
                 var usuario = await _userManager.GetUserAsync(User);
                 if (usuario == null) return Challenge();
 
@@ -154,7 +143,6 @@ namespace ProyectoProgramacion.Controllers
                 return BadRequest(respuesta.Mensaje);
             }
 
-            // Retornamos una VISTA PARCIAL, no un JSON ni una Vista completa
             return PartialView("_Historial", respuesta.Data);
         }
     }
