@@ -40,7 +40,6 @@ namespace ProyectoProgramacion.Controllers
         }
 
         // GET: Solicitudes/Create
-        [Authorize(Roles = "Servicio al Cliente,Administrador")]
         public async Task<IActionResult> Create()
         {
             await CargarListaClientes();
@@ -50,7 +49,6 @@ namespace ProyectoProgramacion.Controllers
         // POST: Solicitudes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Servicio al Cliente,Administrador")]
         public async Task<IActionResult> Create(SolicitudDto solicitudDto)
         {
             ModelState.Remove("Estado");

@@ -6,12 +6,16 @@
 
 <div class="container-fluid">
     <h2><i class="fa fa-clipboard-list"></i> Bandeja de Solicitudes</h2>
+
     @if (User.IsInRole("Admin") || User.IsInRole("Servicio al Cliente"))
     {
-    <div class="text-end mb-3">
-        <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Solicitud</a>
-    </div>
+        <div class="text-end mb-3">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Nueva Solicitud
+            </a>
+        </div>
     }
+
     @if (ViewBag.Error != null)
     {
         <div class="alert alert-danger">@ViewBag.Error</div>
