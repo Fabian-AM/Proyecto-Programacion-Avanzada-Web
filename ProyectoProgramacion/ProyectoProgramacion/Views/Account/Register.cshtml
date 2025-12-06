@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null; 
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -13,77 +13,124 @@
     <style>
 
         body {
-            background-color: #f8f9fa; 
-            height: 100vh;
+            background: linear-gradient(135deg, #0A1A2F, #0A2740, #162A4A);
+            min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start; 
             justify-content: center;
+            padding: 60px 20px; 
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
         }
+
 
         .card-registro {
             width: 100%;
-            max-width: 450px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 3.2rem 3rem; 
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+        }
+
+        .form-control {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 14px;
+            padding: 1rem 1.1rem; 
+            color: #fff;
+            margin-bottom: 22px;
+            transition: 0.25s ease;
+            font-size: 1rem;
+        }
+
+        .titulo {
+            font-weight: 800;
+            font-size: 2rem;
+            color: #BBD3E8;
+            text-align: center;
+            margin-bottom: 2rem; 
+        }
+
+        .btn-registrar {
+            background: linear-gradient(135deg, #1D7ECF, #5161F5);
             border: none;
+            border-radius: 14px;
+            padding: 1rem;
+            font-size: 1.1rem; 
+            font-weight: 700;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 25px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+            transition: 0.25s ease-in-out;
         }
 
         .btn-volver {
-            text-decoration: none;
-            color: #6c757d;
+            border-radius: 14px;
+            padding: 0.9rem;
+            border: 1px solid #7DAEDB !important;
+            color: #BBD3E8 !important;
+            background: transparent;
+            transition: 0.2s ease;
+            font-size: 1rem;
         }
 
             .btn-volver:hover {
-                color: #343a40;
-                text-decoration: underline;
+                background: rgba(255,255,255,0.1);
+                color: #ffffff !important;
             }
+
     </style>
+
 </head>
 <body>
 
-    <div class="card card-registro">
-        <div class="card-body p-5">
-            <h2 class="text-center mb-4">Crear Cuenta</h2>
+    <div class="card-registro">
 
-            <form asp-action="Register" method="post">
+        <h2 class="titulo">Crear Cuenta</h2>
 
-                <div class="mb-3">
-                    <label class="form-label">Identificación</label>
-                    <input name="Identificacion" class="form-control" placeholder="Ej: 12345" required />
-                </div>
+        <form asp-action="Register" method="post">
 
-                <div class="mb-3">
-                    <label class="form-label">Correo Electrónico</label>
-                    <input name="Email" type="email" class="form-control" placeholder="nombre@ejemplo.com" required />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Contraseña</label>
-                    <input name="Password" type="password" class="form-control" required />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Confirmar Contraseña</label>
-                    <input name="ConfirmPassword" type="password" class="form-control" required />
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
-                </div>
-
-            </form>
-
-            <hr class="my-4">
-
-            <div class="text-center">
-                <p class="mb-2">¿Ya tienes una cuenta?</p>
-
-                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary w-100">
-                    ← Volver a Iniciar Sesión
-                </a>
-
+            <div class="mb-3">
+                <label class="form-label">Identificación</label>
+                <input name="Identificacion" class="form-control" placeholder="Ej: 12345" required />
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Correo Electrónico</label>
+                <input name="Email" type="email" class="form-control" placeholder="nombre@ejemplo.com" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input name="Password" type="password" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Confirmar Contraseña</label>
+                <input name="ConfirmPassword" type="password" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-registrar w-100 mt-3">
+                Registrarse
+            </button>
+
+        </form>
+
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.12);">
+
+        <div class="text-center">
+            <p class="mb-2 text-soft">¿Ya tenés cuenta?</p>
+
+            <a asp-controller="Account" asp-action="Login" class="btn btn-volver w-100">
+                ← Volver a Iniciar Sesión
+            </a>
         </div>
+
     </div>
 
 </body>

@@ -1,10 +1,77 @@
 ﻿@using ProyectoProgramacionBLL.Dtos
-
 @model List<ClienteDto>
 
-<h1>@ViewData["Title"]</h1>
+<style>
 
-<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+    h1, .titulo-listar {
+        font-weight: 800;
+        font-size: 2.4rem;
+        margin-bottom: 25px;
+        color: #0D1B2A;
+        letter-spacing: -0.5px;
+    }
+
+
+    button[data-bs-target="#modalCrearCliente"] {
+        background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.85rem 1.6rem !important;
+        font-weight: 600 !important;
+        font-size: 1.05rem !important;
+        color: #fff !important;
+        box-shadow: 0px 8px 18px rgba(0,0,0,0.15) !important;
+        transition: 0.25s ease !important;
+        margin-bottom: 25px !important;
+    }
+
+        button[data-bs-target="#modalCrearCliente"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0px 12px 26px rgba(0,0,0,0.20) !important;
+        }
+
+    #tablaClientes .btn-editar,
+    #tablaClientes .btn-eliminar {
+        min-width: 110px !important;
+        height: 42px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        padding: 0 !important;
+        color: #fff !important;
+        box-shadow: 0px 8px 18px rgba(0,0,0,0.15) !important;
+        transition: 0.25s ease !important;
+    }
+
+    #tablaClientes .btn-editar {
+        background: #2563EB !important;
+    }
+
+        #tablaClientes .btn-editar:hover {
+            background: #1E49C5 !important;
+            transform: translateY(-2px);
+        }
+
+
+    #tablaClientes .btn-eliminar {
+        background: #DC2626 !important;
+    }
+
+        #tablaClientes .btn-eliminar:hover {
+            background: #B91C1C !important;
+            transform: translateY(-2px);
+        }
+</style>
+
+<h1 class="titulo-listar">@ViewData["Title"]</h1>
+
+<button type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalCrearCliente">
     Crear Nuevo Cliente
 </button>
 
@@ -20,10 +87,11 @@
         </tr>
     </thead>
 </table>
+
 @await Html.PartialAsync("Edit")
 @await Html.PartialAsync("Create")
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/Clientes.js" asp-append-version="true"></script>
-
 }

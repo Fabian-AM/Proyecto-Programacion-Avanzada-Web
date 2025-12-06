@@ -3,49 +3,139 @@
     ViewData["Title"] = "Iniciar Sesión en SGC";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <section class="card shadow-lg p-4">
-            <h2 class="card-title text-center text-primary mb-4">
-                <i class="fas fa-lock me-2"></i> Acceso al Sistema SGC
-            </h2>
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+<style>
+    body {
+        background: linear-gradient(135deg, #0A1A2F, #0A2740, #162A4A);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-                <p class="text-secondary text-center">Ingrese sus credenciales para continuar.</p>
-                <hr />
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 3rem 2.7rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+        color: #fff;
+    }
+
+    .login-title {
+        font-weight: 800;
+        font-size: 1.9rem;
+        color: #BBD3E8;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 14px;
+        padding: 0.95rem 1.1rem;
+        color: #fff;
+        font-size: 1rem;
+        transition: 0.25s all ease;
+    }
+
+        .form-control::placeholder {
+            color: #d0d0d0;
+        }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.18);
+            border-color: #1D7ECF;
+            box-shadow: 0 0 0 3px rgba(29,126,207,0.4);
+            color: #fff;
+        }
+
+    .btn-login {
+        background: linear-gradient(135deg, #1D7ECF, #5161F5);
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        transition: 0.25s ease-in-out;
+    }
+
+        .btn-login:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.55);
+        }
+
+
+    .text-soft {
+        color: #BBD3E8;
+        opacity: .8;
+    }
+
+
+    .login-footer a {
+        color: #7DAEDB;
+        font-weight: 600;
+        text-decoration: none;
+        transition: .2s;
+    }
+
+        .login-footer a:hover {
+            color: #cde3ff;
+            text-decoration: underline;
+        }
+
+</style>
+
+
+<div class="row justify-content-center mt-5 w-100">
+    <div class="col-md-5">
+        <section class="login-card">
+
+            <h2 class="text-center login-title mb-3">
+                <i class="fas fa-lock me-2"></i> Iniciar Sesión
+            </h2>
+
+            <p class="text-center mb-4 text-soft">
+                Accedé al Sistema de Gestión de Crédito.
+            </p>
+
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
 
                 <div asp-validation-summary="All" class="text-danger small mb-3"></div>
 
-                @* Campo de Correo Electrónico *@
-                <div class="form-group mb-3">
-                    <label asp-for="Email" class="form-label fw-semibold"></label>
-                    <input asp-for="Email" class="form-control" placeholder="su.correo@dominio.com" />
+                <div class="form-group mb-4">
+                    <label asp-for="Email" class="form-label fw-semibold text-soft"></label>
+                    <input asp-for="Email" class="form-control" placeholder="correo@dominio.com" />
                     <span asp-validation-for="Email" class="text-danger small"></span>
                 </div>
 
-                @* Campo de Contraseña *@
-                <div class="form-group mb-3">
-                    <label asp-for="Password" class="form-label fw-semibold"></label>
-                    <input asp-for="Password" class="form-control" placeholder="Contraseña encriptada" />
+                <div class="form-group mb-4">
+                    <label asp-for="Password" class="form-label fw-semibold text-soft"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Tu contraseña" />
                     <span asp-validation-for="Password" class="text-danger small"></span>
                 </div>
 
-                @* Botón de Enviar *@
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                <div class="d-grid">
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i> Entrar
                     </button>
                 </div>
 
-                <hr />
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.12);">
 
-                @* Enlace a Registro *@
-                <div class="text-center">
+                <div class="text-center login-footer">
                     <p class="mb-1">
-                        ¿No tienes una cuenta?
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Regístrate aquí</a>
+                        ¿No tenés cuenta?
+                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Crear una cuenta</a>
                     </p>
                 </div>
+
             </form>
         </section>
     </div>
