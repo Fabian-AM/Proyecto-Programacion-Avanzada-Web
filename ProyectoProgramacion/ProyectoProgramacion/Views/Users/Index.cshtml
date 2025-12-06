@@ -142,7 +142,8 @@
                 <td>@string.Join(", ", u.Roles)</td>
                 <td>
                     <button class="btn btn-warning btn-sm" onclick="openEditModal('@u.Id')">Editar</button>
-                    <button class="btn btn-info btn-sm" onclick="openRolesModal('@u.Id')">Roles</button>
+                    
+                    <button class="btn btn-info btn-sm" onclick="openDetailsModal('@u.Id')">Ver Detalles</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteUser('@u.Id')">Eliminar</button>
                 </td>
             </tr>

@@ -1,0 +1,54 @@
+﻿@model ProyectoProgramacionBLL.Dtos.UserEditDto
+
+<div class="modal fade" id="MainModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background:#0D1B2A; color:white;">
+                <h5 class="modal-title">Detalles del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" style="background:#F9FAFB; padding:24px;">
+
+                <div class="mb-3">
+                    <label><strong>Email:</strong></label>
+                    <div class="form-control bg-light">@Model.Email</div>
+                </div>
+
+                <div class="mb-3">
+                    <label><strong>Identificación:</strong></label>
+                    <div class="form-control bg-light">@Model.Identificacion</div>
+                </div>
+
+                <div class="mb-3">
+                    <label><strong>Nombre:</strong></label>
+                    <div class="form-control bg-light">@Model.Nombre</div>
+                </div>
+
+                <div class="mb-3">
+                    <label><strong>Apellido:</strong></label>
+                    <div class="form-control bg-light">@Model.Apellido</div>
+                </div>
+
+                <div class="mb-3">
+                    <label><strong>Roles:</strong></label>
+                    <ul class="list-group">
+                        @foreach (var r in Model.Roles)
+                        {
+                            <li class="list-group-item">@r</li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background:#F1F5F9;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

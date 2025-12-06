@@ -30,6 +30,14 @@ function openRolesModal(id) {
     });
 }
 
+function openDetailsModal(id) {
+    $.get('/Users/Details/' + id, function (html) {
+        $('#ModalContainer').html(html);
+        $('#MainModal').modal('show');
+    });
+}
+
+
 function deleteUser(id) {
     Swal.fire({
         title: '¿Eliminar usuario?',

@@ -214,6 +214,16 @@ namespace ProyectoProgramacion.Controllers
             return PartialView("_Roles", vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            var dto = await _accountService.GetUserByIdAsync(id);
+            if (dto == null) return NotFound();
+
+            return PartialView("_Details", dto);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Roles(UserRolesViewModel model)
         {
