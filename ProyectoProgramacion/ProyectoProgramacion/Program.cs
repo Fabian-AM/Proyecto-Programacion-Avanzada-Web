@@ -14,11 +14,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IClientesRepositorio, ClientesRepositorio>();
 builder.Services.AddScoped<IClienteServicio, ClienteServicio>();
+builder.Services.AddScoped<ISolicitudesRepositorio, SolicitudesRepositorio>();
+builder.Services.AddScoped<ISolicitudesServicio, SolicitudesServicio>();
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases));
 
 // 2. Configuración de EF Core / SQLite / DbContext
-builder.Services.AddDbContext<AppDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(connectionString));
 
 // 3. Configuración de ASP.NET Identity (Roles, Usuarios, Encriptación)
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

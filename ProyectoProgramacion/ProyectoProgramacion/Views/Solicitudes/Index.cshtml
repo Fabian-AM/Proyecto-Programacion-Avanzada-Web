@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ProyectoProgramacionBLL.Dtos.SolicitudDto>
+
+@{
+    ViewData["Title"] = "Gestión de Solicitudes";
+}
+
+<h1>Listado de Solicitudes de Crédito</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nueva Solicitud</a>
+</p>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SolicitudID</td>
+                <td>@item.ClienteID</td>
+                <td>@item.MontoCredito.ToString("C")</td>
+                <td>@item.FechaCreacion.ToShortDateString()</td>
+                <td>
+                    @if (item.Estado == "Ingresado")
+                    {
+                        <span class="badge bg-primary">@item.Estado</span>
+                    }
+                    else if (item.Estado == "Aprobado")
+                    {
+
+                        <span class="badge bg-success">@item.Estado</span>
+                    }
+                    else if (item.Estado == "Devolución")
+                    {
+
+                        <span class="badge bg-warning text-dark">@item.Estado</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-secondary">@item.Estado</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SolicitudID" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.SolicitudID" class="btn btn-info btn-sm">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (TempData["MensajeExito"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: '@TempData["MensajeExito"]',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#3085d6' // Color azul estándar, puedes cambiarlo
+            });
+        });
+    </script>
+}

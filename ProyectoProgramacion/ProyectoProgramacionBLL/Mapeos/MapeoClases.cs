@@ -13,8 +13,8 @@ namespace ProyectoProgramacionBLL.Mapeos
     {
         public MapeoClases()
         {
-            CreateMap<Cliente, ClienteDto>();
-            CreateMap<ClienteDto, Cliente>();  
+            CreateMap<Cliente, ClienteDto>().ReverseMap();          
+            CreateMap<Solicitud, SolicitudDto>().ReverseMap();
         }
     }
 }

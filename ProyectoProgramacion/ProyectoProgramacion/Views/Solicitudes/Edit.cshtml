@@ -1,0 +1,53 @@
+﻿@model ProyectoProgramacionBLL.Dtos.SolicitudDto
+
+@{
+    ViewData["Title"] = "Editar Solicitud";
+}
+
+<h1>Editar Solicitud</h1>
+
+<h4>Modificar datos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="SolicitudID" />
+
+            <div class="form-group mb-3">
+                <label asp-for="ClienteID" class="control-label">Cliente</label>
+                <select asp-for="ClienteID" class="form-control" asp-items="ViewBag.ClienteID"></select>
+                <span asp-validation-for="ClienteID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="MontoCredito" class="control-label">Monto del Crédito</label>
+                <input asp-for="MontoCredito" class="form-control" />
+                <span asp-validation-for="MontoCredito" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ComentariosIniciales" class="control-label">Comentarios</label>
+                <textarea asp-for="ComentariosIniciales" class="form-control"></textarea>
+                <span asp-validation-for="ComentariosIniciales" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Estado Actual</label>
+                <input asp-for="Estado" class="form-control" readonly />
+            </div>
+
+            <div class="form-group mt-4">
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
