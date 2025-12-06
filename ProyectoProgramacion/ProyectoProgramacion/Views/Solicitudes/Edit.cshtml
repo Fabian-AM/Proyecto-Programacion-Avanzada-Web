@@ -4,6 +4,176 @@
 @{
     ViewData["Title"] = "Procesar Solicitud";
 }
+<style>
+
+h3 {
+    font-weight: 800;
+    font-size: 1.9rem;
+    color: #0D1B2A;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.card {
+    border-radius: 14px !important;
+    overflow: hidden;
+    border: none !important;
+}
+
+
+.card-header {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 18px;
+}
+
+
+.card-header.bg-info {
+    background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+    color: white !important;
+}
+
+.card-header.bg-secondary {
+    background: #4B5563 !important;
+    color: #fff;
+}
+
+.card-body {
+    background: #F9FAFB !important;
+}
+
+
+.list-group-item {
+    padding: 14px !important;
+    border: none !important;
+    border-bottom: 1px solid #E5E7EB !important;
+    background: white !important;
+}
+
+.list-group-item:last-child {
+    border-bottom: none !important;
+}
+
+.btn-outline-primary {
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    border-width: 2px !important;
+}
+
+.form-group input[type="file"] {
+    border-radius: 8px;
+    border: 1px solid #CBD5E1;
+    padding: 8px;
+    background: #FFFFFF;
+}
+
+.form-group {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+}
+
+
+textarea.form-control {
+    border-radius: 12px;
+    border: 1px solid #CBD5E1;
+    background: #FFFFFF;
+    transition: 0.2s ease;
+}
+
+textarea.form-control:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+
+.badge.bg-primary {
+    background: #2563EB !important;
+    font-size: 0.95rem !important;
+    padding: 6px 12px !important;
+}
+
+
+button.btn,
+a.btn {
+    border-radius: 12px !important;
+    padding: 10px 18px !important;
+    font-weight: 600 !important;
+    transition: 0.25s ease-in-out !important;
+}
+
+.btn-secondary {
+    background: #4B5563 !important;
+    border: none !important;
+}
+
+.btn-secondary:hover {
+    background: #374151 !important;
+}
+
+
+.btn-primary {
+    background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.15);
+}
+
+
+.btn-success {
+    background: #16A34A !important;
+    border: none !important;
+}
+
+.btn-success:hover {
+    background: #15803D !important;
+}
+
+
+.btn-danger {
+    background: #DC2626 !important;
+    border: none !important;
+}
+
+.btn-danger:hover {
+    background: #B91C1C !important;
+}
+
+
+
+.alert-light {
+    background: #F3F4F6 !important;
+    border-radius: 12px !important;
+    color: #4B5563 !important;
+}
+
+
+#modalGeneral .modal-content {
+    border-radius: 14px !important;
+}
+
+#modalGeneral .modal-header {
+    background: #0D1B2A !important;
+    color: #FFFFFF !important;
+}
+
+#modalGeneral .btn-close-white {
+    filter: invert(1);
+}
+
+.spinner-border {
+    width: 3rem !important;
+    height: 3rem !important;
+}
+
+</style>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

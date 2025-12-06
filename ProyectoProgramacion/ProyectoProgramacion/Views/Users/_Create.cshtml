@@ -1,5 +1,116 @@
 ﻿@model ProyectoProgramacionBLL.Dtos.ViewModels.UserCreateViewModel
 
+<style>
+
+  
+    #MainModal .modal-content {
+        border-radius: 14px !important;
+        border: none !important;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.25);
+        overflow: hidden;
+    }
+
+
+    #MainModal .modal-header {
+        background: #0D1B2A !important;
+        color: #FFFFFF !important;
+        padding: 16px 22px !important;
+    }
+
+    #MainModal .modal-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    #MainModal .btn-close {
+        filter: brightness(0) invert(1);
+    }
+
+  
+    #MainModal .modal-body {
+        background: #F9FAFB !important;
+        padding: 24px 26px !important;
+    }
+
+    #MainModal label {
+        font-weight: 700 !important;
+        color: #1E293B;
+    }
+
+
+    #MainModal .form-control {
+        border-radius: 12px !important;
+        border: 1px solid #CBD5E1 !important;
+        padding: 10px !important;
+        transition: 0.25s;
+        background: #FFFFFF !important;
+    }
+
+        #MainModal .form-control:focus {
+            border-color: #2563EB !important;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+
+    #MainModal .form-check {
+        background: white;
+        border-radius: 10px;
+        padding: 10px 14px;
+        border: 1px solid #E2E8F0;
+        margin-bottom: 10px;
+        transition: 0.2s ease-in-out;
+    }
+
+        #MainModal .form-check:hover {
+            background: #F1F5F9 !important;
+        }
+
+    #MainModal .form-check-label {
+        margin-left: 6px;
+        font-weight: 600;
+        color: #334155;
+    }
+
+
+    #MainModal .modal-footer {
+        background: #F1F5F9 !important;
+        border-top: 1px solid #E2E8F0 !important;
+        padding: 12px 18px !important;
+    }
+
+ 
+    #MainModal .btn-secondary {
+        background: #4B5563 !important;
+        border-radius: 12px !important;
+        padding: 10px 20px !important;
+        border: none !important;
+        font-weight: 600 !important;
+        transition: 0.2s;
+    }
+
+        #MainModal .btn-secondary:hover {
+            background: #374151 !important;
+            transform: translateY(-2px);
+        }
+
+    
+    #MainModal .btn-primary {
+        background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 10px 22px !important;
+        font-weight: 700 !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        #MainModal .btn-primary:hover {
+            background: #1A66D1 !important;
+            transform: translateY(-2px);
+        }
+
+</style>
+
+
 <div class="modal fade" id="MainModal">
     <div class="modal-dialog">
         <div class="modal-content">

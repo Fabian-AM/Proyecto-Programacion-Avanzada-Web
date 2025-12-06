@@ -4,6 +4,122 @@
     ViewData["Title"] = "Administración de Usuarios";
 }
 
+<style>
+
+  
+    h2 {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #0D1B2A;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    button.btn-primary[onclick="openCreateModal()"] {
+        background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        transition: 0.25s ease-in-out;
+    }
+
+        button.btn-primary[onclick="openCreateModal()"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.20);
+        }
+
+  
+    #usersTable {
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        background: white;
+        border-collapse: separate !important;
+    }
+
+        #usersTable thead {
+            background: #0D1B2A !important;
+        }
+
+            #usersTable thead th {
+                color: white !important;
+                text-transform: uppercase;
+                font-weight: 700;
+                letter-spacing: 0.4px;
+                padding: 12px 14px;
+            }
+
+        #usersTable tbody tr {
+            transition: 0.2s;
+        }
+
+            #usersTable tbody tr:hover {
+                background: #F3F6FA !important;
+            }
+
+        #usersTable td {
+            padding: 12px 14px !important;
+            vertical-align: middle;
+            color: #1A1A1A;
+        }
+  
+        #usersTable .btn-warning {
+            background: #F59E0B !important;
+            border: none !important;
+            color: #fff !important;
+            border-radius: 10px !important;
+            padding: 6px 12px !important;
+            font-weight: 600 !important;
+            transition: 0.2s;
+        }
+
+            #usersTable .btn-warning:hover {
+                background: #D97706 !important;
+                transform: translateY(-2px);
+            }
+
+ 
+        #usersTable .btn-info {
+            background: #2563EB !important;
+            border: none !important;
+            color: #fff !important;
+            border-radius: 10px !important;
+            padding: 6px 12px !important;
+            font-weight: 600 !important;
+        }
+
+            #usersTable .btn-info:hover {
+                background: #1D4ED8 !important;
+                transform: translateY(-2px);
+            }
+
+      
+        #usersTable .btn-danger {
+            background: #DC2626 !important;
+            border: none !important;
+            border-radius: 10px !important;
+            padding: 6px 12px !important;
+            font-weight: 600 !important;
+        }
+
+            #usersTable .btn-danger:hover {
+                background: #B91C1C !important;
+                transform: translateY(-2px);
+            }
+
+
+        #usersTable td:nth-child(3) {
+            font-weight: 600;
+            color: #334155;
+        }
+
+</style>
+
+
 <h2>Administración de Usuarios</h2>
 
 <button class="btn btn-primary mb-3" onclick="openCreateModal()">Crear Usuario</button>

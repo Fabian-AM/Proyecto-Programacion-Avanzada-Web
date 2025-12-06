@@ -5,6 +5,112 @@
 }
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+
+   
+    h2 {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #0D1B2A;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        h2 i {
+            color: #1D7ECF;
+            font-size: 1.4rem;
+        }
+
+  
+    .container {
+        background: #FFFFFF;
+        padding: 20px 30px;
+        border-radius: 14px;
+    }
+
+    label.fw-bold {
+        font-weight: 700 !important;
+        color: #1E293B !important;
+    }
+
+
+    .form-control,
+    select.form-control {
+        border-radius: 12px !important;
+        border: 1px solid #CBD5E1 !important;
+        padding: 10px 14px !important;
+        background: #FFFFFF !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        .form-control:focus,
+        select.form-control:focus {
+            border-color: #2563EB !important;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25) !important;
+        }
+
+
+    .form-group input[type="file"] {
+        border-radius: 12px !important;
+        border: 1px solid #CBD5E1 !important;
+        padding: 10px !important;
+    }
+
+  
+    textarea.form-control {
+        border-radius: 12px !important;
+        border: 1px solid #CBD5E1 !important;
+        transition: 0.2s ease;
+    }
+
+ 
+    .form-group.p-3 {
+        border-radius: 14px !important;
+        border: 1px solid #E2E8F0 !important;
+        background: #F9FAFB !important;
+    }
+
+    
+
+    .btn-success {
+        background: #16A34A !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 22px !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        .btn-success:hover {
+            background: #15803D !important;
+            transform: translateY(-2px);
+        }
+
+
+    .btn-secondary {
+        background: #4B5563 !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 22px !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        .btn-secondary:hover {
+            background: #374151 !important;
+            transform: translateY(-2px);
+        }
+
+ 
+    #frmCrearSolicitud .form-group {
+        margin-bottom: 20px;
+    }
+
+</style>
+
 
 <div class="container mt-4">
     <h2><i class="fa fa-plus-circle"></i> Crear Nueva Solicitud</h2>

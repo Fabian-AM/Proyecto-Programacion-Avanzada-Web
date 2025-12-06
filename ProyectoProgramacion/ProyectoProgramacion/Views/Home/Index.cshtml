@@ -1,8 +1,108 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+
+
+    .hero-box {
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #1D7ECF, #5A6BFF);
+        color: white;
+        border-radius: 16px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .hero-title {
+        font-weight: 800;
+        font-size: 2.4rem;
+    }
+
+    .hero-sub {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+  
+    .card-home {
+        border-radius: 14px;
+        border: none;
+        box-shadow: 0px 8px 20px rgba(0,0,0,0.07);
+        transition: 0.25s ease;
+        height: 100%;
+    }
+
+        .card-home:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 12px 26px rgba(0,0,0,0.12);
+        }
+
+        .card-home i {
+            font-size: 2rem;
+            color: #2563EB;
+            margin-bottom: 10px;
+        }
+
+        .card-home .card-title {
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .card-home .card-text {
+            color: #64748B;
+        }
+
+</style>
+
+<div class="container mt-4">
+
+   
+    <div class="hero-box text-center">
+        <h1 class="hero-title">Bienvenido al Sistema de Gestión de Crédito</h1>
+        <p class="hero-sub">
+            Administra solicitudes, usuarios, roles y operaciones internas desde un panel moderno y eficiente.
+        </p>
+    </div>
+
+   
+    <div class="row g-4 text-center">
+
+     
+        <div class="col-md-4">
+            <div class="card card-home p-4">
+                <i class="fa fa-file-alt"></i>
+                <h5 class="card-title">Solicitudes</h5>
+                <p class="card-text">Gestioná solicitudes de crédito, aprobaciones y devoluciones.</p>
+                <a asp-controller="Solicitudes" asp-action="Index" class="btn btn-primary mt-2">
+                    Ir al módulo
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-home p-4">
+                <i class="fa fa-shield-alt"></i>
+                <h5 class="card-title">Sistema Seguro</h5>
+                <p class="card-text">
+                    Este sistema opera bajo prácticas modernas de seguridad, control de roles y auditoría de acciones.
+                </p>
+            </div>
+        </div>
+      
+        <div class="col-md-4">
+            <div class="card card-home p-4">
+                <i class="fa fa-users"></i>
+                <h5 class="card-title">Usuarios</h5>
+                <p class="card-text">Administrá usuarios del sistema y gestioná roles y permisos.</p>
+                <a asp-controller="Users" asp-action="Index" class="btn btn-primary mt-2">
+                    Administrar
+                </a>
+            </div>
+        </div>
+
+      
+
+    </div>
+
 </div>

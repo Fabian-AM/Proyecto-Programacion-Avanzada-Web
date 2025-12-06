@@ -4,6 +4,132 @@
     ViewData["Title"] = "Gestión de Solicitudes";
 }
 
+<style>
+
+    h2 {
+        font-weight: 800;
+        font-size: 2rem;
+        color: #0D1B2A;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        h2 i {
+            color: #1D7ECF;
+            font-size: 1.4rem;
+        }
+
+    a.btn-primary[href*="Create"] {
+        background: linear-gradient(135deg, #1D7ECF, #5A6BFF) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1.6rem !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        color: #fff !important;
+        box-shadow: 0px 8px 18px rgba(0,0,0,0.15) !important;
+        transition: 0.25s ease !important;
+    }
+
+        a.btn-primary[href*="Create"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 12px 26px rgba(0,0,0,0.22) !important;
+        }
+
+    .table {
+        border-radius: 12px !important;
+        overflow: hidden;
+        background: white;
+    }
+
+        .table thead.table-dark {
+            background: #0D1B2A !important;
+        }
+
+        .table thead th {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+     
+        .table tbody tr {
+            transition: 0.2s ease-in-out;
+        }
+
+            .table tbody tr:hover {
+                background: #E8F1FF !important;
+            }
+
+    .badge.bg-success {
+        background: #16A34A !important;
+        font-weight: 600;
+    }
+
+    .badge.bg-danger {
+        background: #DC2626 !important;
+        font-weight: 600;
+    }
+
+    .badge.bg-warning {
+        background: #FACC15 !important;
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+    .badge.bg-secondary {
+        background: #6B7280 !important;
+        font-weight: 600;
+    }
+
+
+    .btn-info {
+        background: #2563EB !important;
+        border: none !important;
+        color: white !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        padding: 6px 12px !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        .btn-info:hover {
+            background: #1D4ED8 !important;
+            transform: translateY(-2px);
+        }
+
+    .btn-secondary {
+        background: #4B5563 !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        padding: 6px 12px !important;
+        transition: 0.25s ease-in-out;
+    }
+
+        .btn-secondary:hover {
+            background: #374151 !important;
+            transform: translateY(-2px);
+        }
+
+ 
+    .modal-header.bg-dark {
+        background: #0D1B2A !important;
+    }
+
+    .modal-content {
+        border-radius: 12px !important;
+    }
+
+    .spinner-border {
+        width: 3rem !important;
+        height: 3rem !important;
+    }
+
+</style>
+
+
 <div class="container-fluid">
     <h2><i class="fa fa-clipboard-list"></i> Bandeja de Solicitudes</h2>
 
@@ -112,3 +238,4 @@
         }
     </script>
 }
+

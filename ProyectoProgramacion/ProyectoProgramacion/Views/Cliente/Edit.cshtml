@@ -1,4 +1,110 @@
 ﻿@model ProyectoProgramacionBLL.Dtos.ClienteDto
+<style>
+
+
+    .modal-content {
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.18);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+        color: #F2F6FF;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.04);
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+        color: #F2F6FF;
+    }
+
+    .modal-title {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #E3EEFF;
+    }
+
+    .btn-close {
+        filter: brightness(2);
+    }
+
+    .modal-body {
+        padding-top: 1.8rem;
+    }
+
+
+    .form-control {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 12px;
+        padding: 0.9rem 1rem;
+        color: #F2F6FF;
+        transition: .25s;
+    }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.18);
+            border-color: #1D7ECF;
+            box-shadow: 0 0 0 3px rgba(29,126,207,0.35);
+            color: #F2F6FF;
+        }
+
+        .form-control::placeholder {
+            color: #DFE8FF;
+        }
+
+    .form-label {
+        font-weight: 600;
+        color: #DCE9FF;
+    }
+
+    .text-danger {
+        font-size: .85rem;
+        color: #ffb3b3 !important;
+    }
+
+    .modal-footer {
+        border-top: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.04);
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+        color: #F2F6FF;
+    }
+
+
+    #btnEditarCambios {
+        background: linear-gradient(135deg, #1D7ECF, #5161F5);
+        border: none;
+        border-radius: 12px;
+        padding: 0.7rem 1.3rem;
+        font-weight: 700;
+        color: #fff;
+        transition: .25s ease-in-out;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+    }
+
+        #btnEditarCambios:hover {
+            transform: scale(1.04);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+        }
+
+    .btn-secondary {
+        border-radius: 12px;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+</style>
+
 
 <div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -13,16 +119,19 @@
                 <form id="formEditarCliente" asp-action="EditarCliente" method="post">
                     <input type="hidden" asp-for="Id" id="ClienteId" />
                     @Html.AntiForgeryToken()
+
                     <div class="form-group mb-3">
                         <label asp-for="Nombre" class="form-label"></label>
                         <input asp-for="Nombre" class="form-control" id="Nombre" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
+
                     <div class="form-group mb-3">
                         <label asp-for="Apellido" class="form-label"></label>
                         <input asp-for="Apellido" class="form-control" id="Apellido" />
                         <span asp-validation-for="Apellido" class="text-danger"></span>
                     </div>
+
                     <div class="form-group mb-3">
                         <label asp-for="Identificacion" class="form-label"></label>
                         <input asp-for="Identificacion" class="form-control" type="number" id="Identificacion" />
@@ -39,9 +148,11 @@
                         <button type="button" class="btn btn-success" id="btnEditarCambios">Guardar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
+
                 </form>
             </div>
 
         </div>
     </div>
 </div>
+
