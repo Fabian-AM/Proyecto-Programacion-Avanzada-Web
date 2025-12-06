@@ -5,112 +5,221 @@
     ViewData["Title"] = "Procesar Solicitud";
 }
 
-<h2>Procesar Solicitud #@Model.SolicitudID</h2>
-<hr />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<div class="row">
-    <div class="col-md-8">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <input type="hidden" asp-for="SolicitudID" />
-            <input type="hidden" asp-for="ClienteID" />
-            <input type="hidden" asp-for="FechaCreacion" />
-            
-            <div class="card mb-3">
-                <div class="card-header bg-info text-white">
-                    Información General
-                </div>
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-4">Cliente</dt>
-                        <dd class="col-sm-8">@Model.NombreCliente</dd> <dt class="col-sm-4">Monto Crédito</dt>
-                        <dd class="col-sm-8">@Model.MontoCredito.ToString("C")</dd>
-
-                        <dt class="col-sm-4">Estado Actual</dt>
-                        <dd class="col-sm-8"><span class="badge bg-secondary">@Model.Estado</span></dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="card mb-3 border-secondary">
-    <div class="card-header bg-secondary text-white">
-        <i class="fa fa-file-pdf"></i> Documentos Adjuntos
-    </div>
-    <div class="card-body">
-        @if (Model.DocumentosExistentes != null && Model.DocumentosExistentes.Any())
-        {
-            <ul class="list-group">
-                @foreach (var doc in Model.DocumentosExistentes)
-                {
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>@doc.NombreArchivo</strong>
-                            <small class="text-muted d-block">Subido el: @doc.FechaSubida</small>
-                        </div>
-                        <a href="~/@doc.RutaAlmacenamiento" target="_blank" class="btn btn-sm btn-outline-primary">
-                            <i class="fa fa-download"></i> Descargar / Ver
-                        </a>
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p class="text-muted">No hay documentos adjuntos a esta solicitud.</p>
-        }
-    </div>
-</div>
-            @if (User.IsInRole("Admin") || User.IsInRole("Analista"))
-            {
-                 <div class="form-group mb-3">
-                    <label class="control-label fw-bold">Adjuntar Documentos de Análisis</label>
-                    <input asp-for="DocumentoAdjunto" type="file" class="form-control" />
-                    <span class="text-muted small">Requerido para enviar a aprobación.</span>
-                </div>
-            }
-
-            <div class="form-group mb-3">
-                <label asp-for="ComentariosIniciales" class="control-label fw-bold">Comentarios / Observaciones</label>
-                <textarea asp-for="ComentariosIniciales" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="ComentariosIniciales" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mt-4">
+<div class="container-fluid">
+    <h3 class="mb-3">Procesar Solicitud #@Model.SolicitudID</h3>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frmProcesarSolicitud" asp-action="Edit" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 
-                @* LÓGICA PARA ANALISTA (Ver solo si está en Ingresado o Devolución) *@
-                @if ((User.IsInRole("Analista") || User.IsInRole("Admin")) && 
-                     (Model.Estado == "Ingresado" || Model.Estado == "Devolución"))
+                @* Campos ocultos necesarios *@
+                <input type="hidden" asp-for="SolicitudID" />
+                <input type="hidden" asp-for="ClienteID" />
+                <input type="hidden" asp-for="FechaCreacion" />
+                
+                @* --- TARJETA DE INFORMACIÓN (Solo lectura) --- *@
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="fa fa-info-circle"></i> Información General
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="fw-bold">Cliente:</span>
+                                <p class="form-control-plaintext">@Model.NombreCliente</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="fw-bold">Monto Crédito:</span>
+                                <p class="form-control-plaintext text-success fw-bold">@Model.MontoCredito.ToString("C")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="fw-bold">Estado Actual:</span>
+                                <p><span class="badge bg-primary fs-6">@Model.Estado</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="fw-bold">Fecha Creación:</span>
+                                <p class="form-control-plaintext">@Model.FechaCreacion.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* --- SECCIÓN DE DOCUMENTOS EXISTENTES --- *@
+                <div class="card mb-3 border-secondary">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="fa fa-file-pdf"></i> Documentos Adjuntos
+                    </div>
+                    <div class="card-body p-2">
+                        @if (Model.DocumentosExistentes != null && Model.DocumentosExistentes.Any())
+                        {
+                            <ul class="list-group list-group-flush">
+                                @foreach (var doc in Model.DocumentosExistentes)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fa fa-file-alt me-2 text-muted"></i>
+                                            <strong>@doc.NombreArchivo</strong>
+                                            <small class="text-muted ms-2">(@doc.FechaSubida)</small>
+                                        </div>
+                                        <a href="~/@doc.RutaAlmacenamiento" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fa fa-download"></i> Ver
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <div class="alert alert-light text-center mb-0">No hay documentos adjuntos.</div>
+                        }
+                    </div>
+                </div>
+
+                @* --- ÁREA DE TRABAJO (Inputs) --- *@
+                
+                @* 1. Subida de Archivos (Solo Analista/Admin) *@
+                @if (User.IsInRole("Admin") || User.IsInRole("Analista"))
                 {
-                    <button type="submit" name="Estado" value="Enviado Aprobación" class="btn btn-primary btn-lg">
-                        <i class="fa fa-paper-plane"></i> Enviar a Aprobación
-                    </button>
+                 <div class="form-group mb-3 p-3 border rounded bg-white">
+                    <label class="control-label fw-bold mb-2 w-100">
+                        <i class="fa fa-upload"></i> Adjuntar Documento de Análisis
+            
+                        <input asp-for="DocumentoAdjunto" type="file" class="form-control mt-2" accept=".pdf,.doc,.docx,.jpg,.png" />
+                    </label>
+                    <span class="text-muted small">Adjunte evidencias o análisis financiero antes de enviar.</span>
+                </div>
                 }
 
-                @* LÓGICA PARA GESTOR (Ver solo si está en Enviado Aprobación) *@
-                @if ((User.IsInRole("Gestor") || User.IsInRole("Admin")) && 
-                     Model.Estado == "Enviado Aprobación")
-                {
-                    <button type="submit" name="Estado" value="Aprobado" class="btn btn-success btn-lg me-2">
-                        <i class="fa fa-check"></i> Aprobar Solicitud
+                @* 2. Comentarios (Para todos, obligatorio si se devuelve) *@
+                <div class="form-group mb-3">
+                    <label class="control-label fw-bold w-100">
+                        Comentarios / Observaciones
+                        <textarea asp-for="ComentariosIniciales" class="form-control mt-2" rows="3" placeholder="Escriba aquí los detalles del análisis o el motivo de devolución..."></textarea>
+                    </label>
+                    <span asp-validation-for="ComentariosIniciales" class="text-danger"></span>
+                </div>
+
+                <hr />
+
+                @* --- BOTONES DE ACCIÓN (Lógica de Negocio) --- *@
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa fa-arrow-left"></i> Cancelar
                     </button>
 
-                    <button type="submit" name="Estado" value="Devolución" class="btn btn-warning btn-lg">
-                        <i class="fa fa-undo"></i> Devolver (Requiere Comentario)
-                    </button>
-                }
+                    <div class="btn-group">
+                        @* LÓGICA ANALISTA: Ver solo si está en 'Ingresado' o 'Devolución' *@
+                        @if ((User.IsInRole("Analista") || User.IsInRole("Admin")) && 
+                             (Model.Estado == "Ingresado" || Model.Estado == "Devolución"))
+                        {
+                            <button type="submit" onclick="establecerAccion('Enviado Aprobación')" class="btn btn-primary">
+                                <i class="fa fa-paper-plane"></i> Enviar a Aprobación
+                            </button>
+                        }
 
-                @* Botón de Guardar simple (solo para Admin o casos sin flujo) *@
-                @if (User.IsInRole("Admin"))
-                {
-                    <button type="submit" class="btn btn-secondary ms-3">Guardar sin Cambiar Estado</button>
-                }
+                        @* LÓGICA GESTOR: Ver solo si está en 'Enviado Aprobación' *@
+                        @if ((User.IsInRole("Gestor") || User.IsInRole("Admin")) && 
+                             Model.Estado == "Enviado Aprobación")
+                        {
+                            <button type="submit" onclick="establecerAccion('Aprobado')" class="btn btn-success me-2">
+                                <i class="fa fa-check-circle"></i> Aprobar
+                            </button>
 
-                <a asp-action="Index" class="btn btn-link">Volver a la lista</a>
-            </div>
-        </form>
+                            <button type="button" onclick="validarDevolucion()" class="btn btn-danger">
+                                <i class="fa fa-undo"></i> Devolver
+                            </button>
+                            
+                            <button type="submit" id="btnRealDevolucion" name="Estado" value="Devolución" style="display:none;"></button>
+                        }
+                    </div>
+                </div>
+                
+                <input type="hidden" id="inputEstado" name="Estado" value="" />
+
+            </form>
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    // Reactivar validación de jQuery Unobtrusive para contenido dinámico
+    $.validator.unobtrusive.parse("#frmProcesarSolicitud");
+
+    // Función auxiliar para setear el valor del botón presionado en el input hidden
+    function establecerAccion(estado) {
+        document.getElementById('inputEstado').value = estado;
+    }
+
+    // Validación específica para el botón "Devolver"
+    function validarDevolucion() {
+        var comentario = document.getElementById("ComentariosIniciales").value;
+        if (!comentario || comentario.trim() === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Comentario Requerido',
+                text: 'Para devolver una solicitud, debe indicar el motivo en el campo de Comentarios.'
+            });
+            return;
+        }
+        // Si hay comentario, seteamos el estado y enviamos
+        establecerAccion('Devolución');
+        // Disparamos el submit manualmente interceptado por el script de abajo
+        var form = document.getElementById('frmProcesarSolicitud');
+        var event = new Event('submit', { cancelable: true });
+        form.dispatchEvent(event);
+    }
+
+    // --- LÓGICA AJAX PARA EVITAR RECARGA (Requisito del PDF) ---
+    document.getElementById('frmProcesarSolicitud').addEventListener('submit', function (e) {
+        e.preventDefault(); // Detener envío normal
+
+        var form = this;
+        
+        // Verificar validación de frontend antes de enviar
+        if (!$(form).valid()) {
+            return; 
+        }
+
+        var formData = new FormData(form);
+
+        Swal.fire({
+            title: 'Procesando...',
+            text: 'Guardando cambios en el sistema',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading() }
+        });
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'La solicitud ha sido procesada correctamente.',
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    // Cerrar modal y recargar la página base para ver cambios en la tabla
+                    // Opcional: Si quieres recargar solo la tabla, requeriría más JS.
+                    window.location.reload(); 
+                });
+            } else {
+                Swal.fire('Error', 'Hubo un problema al procesar la solicitud.', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Error de conexión con el servidor.', 'error');
+        });
+    });
+</script>

@@ -17,5 +17,6 @@ namespace ProyectoProgramacionDAL.Repositorios
         Task<bool> AgregarDocumentoAsync(Documento documento);
         Task<bool> AgregarBitacoraAsync(BitacoraMovimiento movimiento);
         Task<List<BitacoraMovimiento>> ObtenerHistorialAsync(int solicitudId);
+        Task<Solicitud> ObtenerSolicitudActivaPorClienteAsync(int clienteId);
     }
 }

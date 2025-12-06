@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProyectoProgramacionBLL.Dtos;
@@ -39,6 +40,7 @@ namespace ProyectoProgramacion.Controllers
         }
 
         // GET: Solicitudes/Create
+        [Authorize(Roles = "Servicio al Cliente,Administrador")]
         public async Task<IActionResult> Create()
         {
             await CargarListaClientes();
@@ -48,31 +50,28 @@ namespace ProyectoProgramacion.Controllers
         // POST: Solicitudes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Servicio al Cliente,Administrador")]
         public async Task<IActionResult> Create(SolicitudDto solicitudDto)
         {
             ModelState.Remove("Estado");
             ModelState.Remove("NombreCliente");
             solicitudDto.Estado = "Pendiente";
 
-            // 3. AHORA SÍ VERIFICAMOS
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // OBTENER ID DEL USUARIO ACTUAL
-                var usuario = await _userManager.GetUserAsync(User);
-                if (usuario == null) return Challenge(); // Si no hay usuario, forzar login
-
-                // Pasamos el ID al servicio
-                var respuesta = await _solicitudesServicio.CrearSolicitudAsync(solicitudDto, usuario.Id);
-
-                if (!respuesta.EsError)
-                {
-                    TempData["MensajeExito"] = "La solicitud se ha creado correctamente.";
-                    return RedirectToAction(nameof(Index));
-                }
-                ModelState.AddModelError("", respuesta.Mensaje);
+                return Json(new { success = false, message = "Datos del formulario inválidos." });
             }
-            await CargarListaClientes();
-            return View(solicitudDto);
+
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return Challenge();
+            var respuesta = await _solicitudesServicio.CrearSolicitudAsync(solicitudDto, usuario.Id);
+
+            if (respuesta.EsError)
+            {
+                return Json(new { success = false, message = respuesta.Mensaje });
+            }
+
+            return Json(new { success = true, message = "La solicitud se ha creado correctamente." });
         }
 
         // Método auxiliar para llenar el Dropdown de Clientes
@@ -99,7 +98,10 @@ namespace ProyectoProgramacion.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            // Buscamos la solicitud por ID
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var respuesta = await _solicitudesServicio.ObtenerSolicitudPorIdAsync(id);
 
             if (respuesta.EsError || respuesta.Data == null)
@@ -107,11 +109,11 @@ namespace ProyectoProgramacion.Controllers
                 return NotFound();
             }
 
-            // IMPORTANTE: Cargamos la lista de clientes para el Dropdown
             await CargarListaClientes();
 
-            // Mandamos los datos a la vista para que los campos salgan llenos
-            return View(respuesta.Data);
+            // CAMBIO CRÍTICO: Usar PartialView en lugar de View
+            // Esto devuelve solo el HTML del formulario, sin el Layout completo.
+            return PartialView(respuesta.Data);
         }
 
         // 2. POST: Para guardar los cambios
@@ -143,6 +145,10 @@ namespace ProyectoProgramacion.Controllers
         [HttpGet]
         public async Task<IActionResult> Historial(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var respuesta = await _solicitudesServicio.ObtenerHistorialSolicitudAsync(id);
 
             if (respuesta.EsError)

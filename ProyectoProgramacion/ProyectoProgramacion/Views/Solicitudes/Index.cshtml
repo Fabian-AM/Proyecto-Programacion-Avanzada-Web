@@ -1,97 +1,85 @@
-﻿@model IEnumerable<ProyectoProgramacionBLL.Dtos.SolicitudDto>
+﻿@model List<ProyectoProgramacionBLL.Dtos.SolicitudDto>
 
 @{
     ViewData["Title"] = "Gestión de Solicitudes";
 }
 
-<h1>Listado de Solicitudes de Crédito</h1>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        <i class="fa fa-plus"></i> Nueva Solicitud
-    </a>
-</p>
-
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">
-        @ViewBag.Error
+<div class="container-fluid">
+    <h2><i class="fa fa-clipboard-list"></i> Bandeja de Solicitudes</h2>
+    @if (User.IsInRole("Admin") || User.IsInRole("Servicio al Cliente"))
+    {
+    <div class="text-end mb-3">
+        <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Solicitud</a>
     </div>
-}
+    }
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+    @if (!User.IsInRole("Servicio al Cliente"))
+                        {
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th># Gestión</th>
+                    <th>Cliente</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.SolicitudID</td>
+                        <td>@item.NombreCliente</td>
+                        <td>@item.MontoCredito.ToString("C")</td>
+                        <td>
+                            @{
+                                var badgeClass = item.Estado switch
+                                {
+                                    "Aprobado" => "bg-success",
+                                    "Devolución" => "bg-danger",
+                                    "Enviado Aprobación" => "bg-warning text-dark",
+                                    _ => "bg-secondary"
+                                };
+                            }
+                            <span class="badge @badgeClass">@item.Estado</span>
+                        </td>
+                        <td>@item.FechaCreacion.ToShortDateString()</td>
+                        <td>
+                            <button onclick="cargarModal(@item.SolicitudID)" class="btn btn-sm btn-info text-white" title="Procesar / Ver Detalle">
+                                <i class="fa fa-edit"></i> Procesar
+                            </button>
 
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Monto</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.SolicitudID</td>
-                <td>@item.NombreCliente</td>
-                <td>@item.MontoCredito.ToString("C")</td>
-                <td>@item.FechaCreacion.ToShortDateString()</td>
-                <td>
-                    @* Lógica de colores (Badges) *@
-                    @if (item.Estado == "Ingresado")
-                    {
-                        <span class="badge bg-primary">@item.Estado</span>
-                    }
-                    else if (item.Estado == "Aprobado")
-                    {
-                        <span class="badge bg-success">@item.Estado</span>
-                    }
-                    else if (item.Estado == "Devolución")
-                    {
-                        <span class="badge bg-warning text-dark">@item.Estado</span>
-                    }
-                    else if (item.Estado == "Enviado Aprobación")
-                    {
-                        <span class="badge bg-info text-dark">@item.Estado</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">@item.Estado</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.SolicitudID" class="btn btn-warning btn-sm" title="Procesar solicitud">
-                        <i class="fa fa-pencil"></i> Editar
-                    </a>
+                            <button onclick="verHistorial(@item.SolicitudID)" class="btn btn-sm btn-secondary" title="Ver Historial">
+                                <i class="fa fa-history"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
 
-                    <button type="button" class="btn btn-info btn-sm" onclick="verHistorial(@item.SolicitudID)" title="Ver movimientos">
-                        <i class="fa fa-history"></i> Historial
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div class="modal fade" id="modalHistorial" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">Historial de Movimientos</h5>
+                <h5 class="modal-title" id="modalLabel">Gestión de Solicitud</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="contenedorHistorial">
-                <div class="text-center py-3">
-                    <div class="spinner-border text-primary" role="status">
+            <div class="modal-body" id="contenidoModal">
+                <div class="text-center p-4">
+                    <output class="spinner-border text-primary">
                         <span class="visually-hidden">Cargando...</span>
-                    </div>
-                    <p class="mt-2 text-muted">Cargando historial...</p>
+                    </output>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -99,47 +87,28 @@
 
 @section Scripts {
     <script>
-        function verHistorial(idSolicitud) {
-            // 1. Instanciar y mostrar el modal
-            var modalElement = document.getElementById('modalHistorial');
-            var myModal = new bootstrap.Modal(modalElement);
+        // Función para cargar el formulario de Edición en el Modal
+        function cargarModal(id) {
+            var url = '@Url.Action("Edit", "Solicitudes")/' + id;
+
+            // 1. Mostrar el modal (con spinner de carga por defecto)
+            var myModal = new bootstrap.Modal(document.getElementById('modalGeneral'));
             myModal.show();
 
-            // 2. Limpiar contenido previo y mostrar spinner
-            $("#contenedorHistorial").html(`
-                <div class="text-center py-3">
-                    <div class="spinner-border text-primary" role="status"></div>
-                    <p class="mt-2 text-muted">Cargando historial...</p>
-                </div>
-            `);
-
-            // 3. Hacer la petición AJAX al controlador
-            var url = '@Url.Action("Historial", "Solicitudes")/' + idSolicitud;
-
-            $("#contenedorHistorial").load(url, function(response, status, xhr) {
+            // 2. Hacer la petición AJAX al controlador
+            $('#contenidoModal').load(url, function(response, status, xhr) {
                 if (status == "error") {
-                    $("#contenedorHistorial").html(
-                        `<div class="alert alert-danger">
-                            Error al cargar el historial: ${xhr.status} ${xhr.statusText}
-                         </div>`
-                    );
+                    $('#contenidoModal').html('<div class="alert alert-danger">Error al cargar la solicitud: ' + xhr.statusText + '</div>');
                 }
             });
         }
-    </script>
 
-    @if (TempData["MensajeExito"] != null)
-    {
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                Swal.fire({
-                    title: '¡Éxito!',
-                    text: '@TempData["MensajeExito"]',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar'
-                });
-            });
-        </script>
-    }
+        // Función para cargar el Historial (Extra)
+        function verHistorial(id) {
+            var url = '@Url.Action("Historial", "Solicitudes")/' + id;
+            var myModal = new bootstrap.Modal(document.getElementById('modalGeneral'));
+            myModal.show();
+            $('#contenidoModal').load(url);
+        }
+    </script>
 }

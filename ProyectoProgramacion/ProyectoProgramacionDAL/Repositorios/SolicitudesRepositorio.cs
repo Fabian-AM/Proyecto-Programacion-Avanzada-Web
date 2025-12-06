@@ -126,5 +126,13 @@ namespace ProyectoProgramacionDAL.Repositorios
                 .OrderByDescending(b => b.FechaMovimiento) 
                 .ToListAsync();
         }
+        public async Task<Solicitud> ObtenerSolicitudActivaPorClienteAsync(int clienteId)
+        {
+            return await _context.Solicitudes
+                .Include(s => s.Cliente) 
+                .Where(s => s.ClienteID == clienteId &&
+                            (s.Estado == "Ingresado" || s.Estado == "Devolución"))
+                .FirstOrDefaultAsync();
+        }
     }
 }

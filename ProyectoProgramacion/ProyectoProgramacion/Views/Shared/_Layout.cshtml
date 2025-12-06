@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    @if (User.Identity.IsAuthenticated)
+    {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -32,18 +34,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
-                            </li>
+                            </li>    
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Solicitudes" asp-action="Index">Gestión de Créditos</a>
+                                <a class="nav-link text-dark" asp-controller="Solicitudes" asp-action="Index">
+                                    Gestion de Solicitudes
+                                </a>
                             </li>
-                        }
-
-
+                           
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item ms-lg-2 ps-lg-2 border-start">
@@ -82,20 +81,22 @@
                 </div>
             </div>
         </nav>
+        
     </header>
-
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <footer class="border-top footer text-muted">
+            <div class="container">
             &copy; 2025 - SGC Créditos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
     </footer>
-
+    }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

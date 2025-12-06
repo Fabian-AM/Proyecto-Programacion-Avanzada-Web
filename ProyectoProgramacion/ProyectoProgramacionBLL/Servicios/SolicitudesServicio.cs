@@ -40,11 +40,15 @@ namespace ProyectoProgramacionBLL.Servicios
                 return respuesta;
             }
 
-            bool tieneActiva = await _solicitudesRepositorio.ClienteTieneSolicitudActivaAsync(solicitudDto.ClienteID);
-            if (tieneActiva)
+            var solicitudActiva = await _solicitudesRepositorio.ObtenerSolicitudActivaPorClienteAsync(solicitudDto.ClienteID);
+
+            if (solicitudActiva != null)
             {
+                // Asegúrate de que tu entidad Cliente tenga la propiedad 'Identificacion'.
+                // Si no la tiene, agrégala o usa solicitudActiva.Cliente.Id como fallback.
+                string identificacion = solicitudActiva.Cliente.Identificacion.ToString();
                 respuesta.EsError = true;
-                respuesta.Mensaje = $"El usuario ya cuenta con una solicitud de crédito en proceso...";
+                respuesta.Mensaje = $"El usuario con identificación {identificacion} ya cuenta con la solicitud de crédito {solicitudActiva.SolicitudID}, por favor resolver la gestión antes de ingresar otra nueva";
                 return respuesta;
             }
 
