@@ -2,10 +2,10 @@ Grupo C.
 
 1. Integrantes finales del grupo. A los que se les asignará la nota del proyecto
    
-1.Felipe Mora Quesada
-2.Sebastián Araya Gómez
-3.Johnson Abarca Chaves
-4.Fabián Araya Marchena
+1. Felipe Mora Quesada
+2. Sebastián Araya Gómez
+3. Johnson Abarca Chaves
+4. Fabián Araya Marchena
 
 2. Enlace del repositorio si lo subió en GitHub o en algún otro.
 https://github.com/Fabian-AM/Proyecto-Programacion-Avanzada-Web
