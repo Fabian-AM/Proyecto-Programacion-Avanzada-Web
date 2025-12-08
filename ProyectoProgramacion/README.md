@@ -84,28 +84,27 @@ El sistema está organizado en 3 capas:
     - Repositorios:
     - Interfaces e implementaciones para CRUD (IClientesRepositorio, ISolicitudesRepositorio, etc.).
 
----
 
-##Tecnologías utilizadas
+Tecnologías utilizadas
 
-- **.NET 8.0**
-- **ASP.NET Core MVC**
-- **ASP.NET Core Identity**
-- **Entity Framework Core 8**
-  - Provider: **SQLite**
-- **AutoMapper**
-- **Bootstrap 5**
-- **jQuery**
-- **DataTables**
-- **Font Awesome**
+- .NET 8.0
+- ASP.NET Core MVC
+- ASP.NET Core Identity
+- Entity Framework Core 8
+  - Provider: SQLite
+- AutoMapper
+- Bootstrap 5
+- Query
+- DataTables
+- Font Awesome
 
----
 
-## Requisitos previos
+
+Requisitos previos
 
 Antes de ejecutar el proyecto, asegurate de tener:
 
 - .NET 8 SDK instalado  
     Podés verificar con:
-  ```bash
+  bash
   dotnet --version
