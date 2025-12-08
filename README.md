@@ -1,6 +1,7 @@
 Grupo C.
 
 1. Integrantes finales del grupo. A los que se les asignará la nota del proyecto:
+
 - Felipe Mora Quesada
 - Sebastián Araya Gómez
 - Johnson Abarca Chaves
