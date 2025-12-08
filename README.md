@@ -10,7 +10,7 @@ Grupo C.
 2. Enlace del repositorio si lo subió en GitHub o en algún otro.
 https://github.com/Fabian-AM/Proyecto-Programacion-Avanzada-Web
    
-2. Sistema de Gestión de Créditos
+3. Sistema de Gestión de Créditos
 
 Aplicación web desarrollada en ASP.NET Core 8 MVC para la gestión de clientes, solicitudes de crédito, usuarios, roles y bitácora de movimientos.  
 Forma parte del proyecto de Programación Avanzada Web e implementa una arquitectura por capas (Web, BLL, DAL) con buenas prácticas y separación de responsabilidades.
