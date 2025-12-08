@@ -6,10 +6,10 @@ Grupo C.
 - Johnson Abarca Chaves
 - Fabián Araya Marchena
 
-3. Enlace del repositorio si lo subió en GitHub o en algún otro.
+2.  Enlace del repositorio si lo subió en GitHub o en algún otro.
 https://github.com/Fabian-AM/Proyecto-Programacion-Avanzada-Web
    
-4. Sistema de Gestión de Créditos
+3. Sistema de Gestión de Créditos
 
 Aplicación web desarrollada en ASP.NET Core 8 MVC para la gestión de clientes, solicitudes de crédito, usuarios, roles y bitácora de movimientos.  
 Forma parte del proyecto de Programación Avanzada Web e implementa una arquitectura por capas (Web, BLL, DAL) con buenas prácticas y separación de responsabilidades.
@@ -36,7 +36,7 @@ Arquitectura del proyecto
 
 El sistema está organizado en 3 capas:
 
-1️ ProyectoProgramacion (Capa Web/UI)
+1️. ProyectoProgramacion (Capa Web/UI)
 
 - Framework: ASP.NET Core 8 MVC
 - Contiene:
@@ -56,7 +56,7 @@ El sistema está organizado en 3 capas:
     - Registro de servicios (repositorios, servicios BLL, AutoMapper, Identity, DbContext).
     - Middleware de autenticación, autorización, manejo de errores, etc.
 
- 2️ ProyectoProgramacionBLL (Business Logic Layer)
+ 2️. ProyectoProgramacionBLL (Business Logic Layer)
 
 - Contiene la lógica de negocio:
   - Servicios (por ejemplo, ClienteServicio, SolicitudesServicio, AccountService).
@@ -64,7 +64,7 @@ El sistema está organizado en 3 capas:
   - Mapeos con **AutoMapper** para mapear entidades ↔ DTOs.
   - Inicialización/RoleInitializer.cs para crear los roles basados en Identity.
 
-3️ ProyectoProgramacionDAL (Data Access Layer)
+3️. ProyectoProgramacionDAL (Data Access Layer)
 
 - Contiene el acceso a datos con Entity Framework Core:
   - Contexto/AppDbContext.cs:
