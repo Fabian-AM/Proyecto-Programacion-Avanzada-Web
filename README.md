@@ -1,16 +1,15 @@
 Grupo C.
 
-1. Integrantes finales del grupo. A los que se les asignará la nota del proyecto
-   
-1. Felipe Mora Quesada
-2. Sebastián Araya Gómez
-3. Johnson Abarca Chaves
-4. Fabián Araya Marchena
+1. Integrantes finales del grupo. A los que se les asignará la nota del proyecto:
+- Felipe Mora Quesada
+- Sebastián Araya Gómez
+- Johnson Abarca Chaves
+- Fabián Araya Marchena
 
-2. Enlace del repositorio si lo subió en GitHub o en algún otro.
+3. Enlace del repositorio si lo subió en GitHub o en algún otro.
 https://github.com/Fabian-AM/Proyecto-Programacion-Avanzada-Web
    
-3. Sistema de Gestión de Créditos
+4. Sistema de Gestión de Créditos
 
 Aplicación web desarrollada en ASP.NET Core 8 MVC para la gestión de clientes, solicitudes de crédito, usuarios, roles y bitácora de movimientos.  
 Forma parte del proyecto de Programación Avanzada Web e implementa una arquitectura por capas (Web, BLL, DAL) con buenas prácticas y separación de responsabilidades.
